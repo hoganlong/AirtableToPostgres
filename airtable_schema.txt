@@ -1,0 +1,430 @@
+AIRTABLE SCHEMA EXPORT
+Generated: 2026-01-28 10:43:50
+================================================================================
+
+TABLE: ARTWORK
+ID: tblZEmzVq0oW8hfRk
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fldvn64a2mRnVnWtj
+    Type: autoNumber
+
+  Field: REFERENCE_IMAGE
+    ID: fldJbPlHpuFw2yYAv
+    Type: multipleLookupValues
+    Options: {"isValid":true,"recordLinkFieldId":"fldpmZnqY392WxbtP","fieldIdInLinkedTable":"fld0n6eOCP3hlcp8F","result":{"type":"multipleAttachments","options":{"isReversed":false}}}
+
+  Field: iFileName
+    ID: flddZ0YAJhBm3jBfG
+    Type: singleLineText
+    Description: The file name for the jpg and tiff file located on aws.
+
+  Field: TITLE
+    ID: fldVYlYQtyFVVVshR
+    Type: singleLineText
+
+  Field: SERIES
+    ID: fldYp0nnvxWaUh969
+    Type: singleLineText
+
+  Field: CREATE_DT
+    ID: fldKHdHV2wA6ttQT3
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: PAPER_INVENTORY
+    ID: fld0JanS8e2kkjrOY
+    Type: singleLineText
+
+  Field: TYPE_ID
+    ID: fldIKlUaTxyhJxkcO
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tbl6SbZP4HV0yvHoQ","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldPpj8HTVegecKgR"}
+
+  Field: MEDIUM
+    ID: fldHwhNJEoVui1lLA
+    Type: singleLineText
+
+  Field: DIMENSIONS
+    ID: fld7EgZoJ2IRADimt
+    Type: singleLineText
+
+  Field: FOLDED_DIMENSIONS
+    ID: fld8pjPyOxawoqUO2
+    Type: multilineText
+
+  Field: INSTALL
+    ID: fldPqHeY5M9J5yIF0
+    Type: multilineText
+
+  Field: LOCATION
+    ID: fldUqvLDaFz72OVOg
+    Type: singleSelect
+    Options: {"choices":[{"id":"selY2d67zF3SKFp1C","name":"New York apartment","color":"blueLight2"},{"id":"selHShbJt180YEhQi","name":"Pine Bush","color":"cyanLight2"},{"id":"seldnockSd4xYCalc","name":"Paris apartment","color":"tealLight2"},{"id":"selwBIRFUDUuciDKC","name":"Lelia Mordoch Gallery","color":"greenLight2"},{"id":"sel4iQWjLEIfI759M","name":"New York Basement","color":"pinkLight2"},{"id":"seloB0j286gaM7GNc","name":"Pinebush","color":"tealDark1"},{"id":"selbRkxaVWYkxIiQm","name":"Sold, Lyle and Maya Light","color":"blueBright"},{"id":"sel3xNriElBhAe0Qb","name":"Sold","color":"greenDark1"}]}
+
+  Field: NOTES
+    ID: fldZNW0IK22vFszKN
+    Type: multilineText
+
+  Field: SOLD
+    ID: fldGoARfBHQK0f9Nv
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tbljsA9aYToeUPcpD","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldYHwPtmT7WUeBz1"}
+
+  Field: TYPE_NUMBER
+    ID: fldWGxk2OrYSAwQni
+    Type: number
+    Options: {"precision":0}
+
+  Field: HUMAN_READABLE_ID
+    ID: fld6S8jKsfgylZnRG
+    Type: formula
+    Options: {"isValid":true,"formula":"CONCATENATE(\"KL_\", YEAR({fldKHdHV2wA6ttQT3}), \"_\", {fld6CfpiWoRXr21Qy}, \"_\", RIGHT('0000'&{fldWGxk2OrYSAwQni},4))","referencedFieldIds":["fldKHdHV2wA6ttQT3","fld6CfpiWoRXr21Qy","fldWGxk2OrYSAwQni"],"result":{"type":"singleLineText"}}
+
+  Field: FrontCount
+    ID: fldSHCwLPHlANUO2A
+    Type: count
+    Options: {"isValid":true,"recordLinkFieldId":"fldpmZnqY392WxbtP"}
+
+  Field: BackCount
+    ID: fld8z8I13VTnFVgUq
+    Type: count
+    Options: {"isValid":true,"recordLinkFieldId":"fldpmZnqY392WxbtP"}
+
+  Field: PHOTO_ID
+    ID: fldIeHyxxIYYr5Y7i
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblnSxzHB5dXk0DiL","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldoc8tdPzZk0V0Ip"}
+
+  Field: ARTWORK_IMAGE_ID
+    ID: fldpmZnqY392WxbtP
+    Type: multipleRecordLinks
+    Description: ID of ARTWORK_IMAGE table
+    Options: {"linkedTableId":"tblT66JCQVbp0NvL3","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldlXh72LUqW6Ijyw"}
+
+  Field: EXHIBITION
+    ID: fldwkQk8Sc3lmqBOc
+    Type: multilineText
+
+  Field: CONDITION
+    ID: fldMK6OAEvZk78Rcn
+    Type: multilineText
+
+  Field: REC_CREATE_DT
+    ID: fldCDuYH7rBebgsww
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: Code (from TYPE)
+    ID: fld6CfpiWoRXr21Qy
+    Type: multipleLookupValues
+    Options: {"isValid":true,"recordLinkFieldId":"fldIKlUaTxyhJxkcO","fieldIdInLinkedTable":"fldKd2l1cGcYv29yq","result":{"type":"singleLineText"}}
+
+
+TABLE: ARTWORK_IMAGE
+ID: tblT66JCQVbp0NvL3
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fld1waFownDb36nkg
+    Type: autoNumber
+
+  Field: ARTWORK_ID
+    ID: fldlXh72LUqW6Ijyw
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldpmZnqY392WxbtP"}
+
+  Field: REFERENCE_IMAGE
+    ID: fld0n6eOCP3hlcp8F
+    Type: multipleAttachments
+    Options: {"isReversed":false}
+
+  Field: CREATE_DT
+    ID: fldUXEjoTYcHJc6iE
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: PHOTOGRAPHER
+    ID: fldSErHa66UpWnJlC
+    Type: singleLineText
+
+  Field: VIEW
+    ID: fldhBSFJjpevyfoSv
+    Type: singleLineText
+
+  Field: NOTES
+    ID: fld6CrRXd73XiSABc
+    Type: multilineText
+
+  Field: REC_CREATE_DT
+    ID: fld4MTf12LheBFFnH
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: URL
+    ID: fld7N3FQ30igwgN8G
+    Type: url
+
+
+TABLE: ARCHIVE
+ID: tblp53BYcUmGcZhh4
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fldROUbUZPP6VtDC1
+    Type: autoNumber
+
+  Field: REFERENCE_IMAGE (from REFERENCE_IMAGE)
+    ID: flddDUGiAS9usBeJH
+    Type: multipleLookupValues
+    Options: {"isValid":true,"recordLinkFieldId":"fldQuMBSw9Fwjjjg5","fieldIdInLinkedTable":"fldBs5f6xiEYoGwkz","result":{"type":"multipleAttachments","options":{"isReversed":false}}}
+
+  Field: TITLE
+    ID: fldTXliZf457HDfwV
+    Type: multilineText
+
+  Field: EXTENT
+    ID: fldti3NpNP940jSV9
+    Type: multilineText
+
+  Field: TYPE
+    ID: fldIMAiM5m28kramJ
+    Type: multilineText
+
+  Field: SCOPE
+    ID: fldJliViuHjp3anew
+    Type: multilineText
+
+  Field: NOTES
+    ID: fldoPiYf0MTEy8CrU
+    Type: multilineText
+
+  Field: ARCHIVE_CONTAINER
+    ID: fldcplTADd0L5ncex
+    Type: multilineText
+
+  Field: CHILD_CONTAINER
+    ID: fldfiQmVWTx2PbbBK
+    Type: multilineText
+
+  Field: ITEM_CREATE_DT
+    ID: fldHJ86rTgekmO9l6
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: PUBLICATION_DT
+    ID: fldOYGanzOU21fEjR
+    Type: multilineText
+
+  Field: REC_CREATE_DT
+    ID: fldtj6V8ZQefMVwxT
+    Type: multilineText
+
+  Field: ARCHIVE_IMAGE
+    ID: fldQuMBSw9Fwjjjg5
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tbl7tfcwBa4CB5OJR","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldrVhUG6redSuNit"}
+
+  Field: SOLD
+    ID: fldG0jHuOXzqtsZfZ
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tbljsA9aYToeUPcpD","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldDDxWjt4DtgXiFG"}
+
+
+TABLE: ARCHIVE_IMAGE
+ID: tbl7tfcwBa4CB5OJR
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fldO4vJdCFVLtr3jK
+    Type: autoNumber
+
+  Field: REFERENCE_IMAGE
+    ID: fldBs5f6xiEYoGwkz
+    Type: multipleAttachments
+    Options: {"isReversed":false}
+
+  Field: CREATE_DT
+    ID: fld3486SmyuPDFaTr
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: URL
+    ID: fldQRfQT2Hpz7tpbn
+    Type: multilineText
+
+  Field: PHOTOGRAPHER
+    ID: flds9DnCOVe6LqEeX
+    Type: multilineText
+
+  Field: VIEW
+    ID: fldoyymg9EAFcvSo1
+    Type: multilineText
+
+  Field: REC_CREATE_DT
+    ID: fldtsDMxlQuByYwee
+    Type: multilineText
+
+  Field: ARCHIVE_ID
+    ID: fldrVhUG6redSuNit
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblp53BYcUmGcZhh4","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldQuMBSw9Fwjjjg5"}
+
+  Field: NOTES
+    ID: fld0CEyQv7Iv70ZUH
+    Type: multilineText
+
+  Field: ID (from ARCHIVE_ID)
+    ID: fld9qgfjlMp6WUrGt
+    Type: multipleLookupValues
+    Options: {"isValid":true,"recordLinkFieldId":"fldrVhUG6redSuNit","fieldIdInLinkedTable":"fldROUbUZPP6VtDC1","result":{"type":"number","options":{"precision":0}}}
+
+
+TABLE: SOLD
+ID: tbljsA9aYToeUPcpD
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fldFj0E2qH7YkoqIk
+    Type: autoNumber
+
+  Field: ARTWORK_ID
+    ID: fldYHwPtmT7WUeBz1
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldGoARfBHQK0f9Nv"}
+
+  Field: ARCHIVE_ID
+    ID: fldDDxWjt4DtgXiFG
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblp53BYcUmGcZhh4","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldG0jHuOXzqtsZfZ"}
+
+  Field: COLLECTION
+    ID: fldIvi3NVNM7PWqYB
+    Type: multilineText
+
+  Field: CONTACT
+    ID: fldA2LAzrZEXbTmd8
+    Type: multilineText
+
+  Field: PRICE
+    ID: fldL3B5dR7iQY8GAd
+    Type: currency
+    Options: {"precision":2,"symbol":"$"}
+
+  Field: SALE_DT
+    ID: fld3kqGh9P1MOBmZu
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: LOCATION
+    ID: fldMYUhcaazxvs97D
+    Type: multilineText
+
+  Field: NOTES
+    ID: fldRuQfR9mMh2U2rr
+    Type: multilineText
+
+  Field: REC_CREATE_DT
+    ID: fldiMnhs00s2pwPAH
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: ID (from ARCHIVE)
+    ID: fldY6CnQTCin6iXF1
+    Type: multipleLookupValues
+    Options: {"isValid":true,"recordLinkFieldId":"fldDDxWjt4DtgXiFG","fieldIdInLinkedTable":"fldROUbUZPP6VtDC1","result":{"type":"number","options":{"precision":0}}}
+
+  Field: ID (from ARTWORK_ID)
+    ID: fldDiJuVCK3FMuTdv
+    Type: multipleLookupValues
+    Options: {"isValid":true,"recordLinkFieldId":"fldYHwPtmT7WUeBz1","fieldIdInLinkedTable":"fldvn64a2mRnVnWtj","result":{"type":"number","options":{"precision":0}}}
+
+
+TABLE: ARTWORK_TYPE
+ID: tbl6SbZP4HV0yvHoQ
+--------------------------------------------------------------------------------
+  Field: Code
+    ID: fldKd2l1cGcYv29yq
+    Type: singleLineText
+
+  Field: Description
+    ID: fldYsUBvmXXz4xRU8
+    Type: multilineText
+
+  Field: ARTWORK
+    ID: fldPpj8HTVegecKgR
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldIKlUaTxyhJxkcO"}
+
+
+TABLE: PHOTO
+ID: tblnSxzHB5dXk0DiL
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fld8gMRyEHjWRNt1s
+    Type: autoNumber
+
+  Field: DESCRIPTION
+    ID: fldCCukW1gwV75XYu
+    Type: singleLineText
+
+  Field: YEAR
+    ID: fldtPSDzawo8JUi9f
+    Type: number
+    Options: {"precision":0}
+
+  Field: DATE
+    ID: fldszdLgGMQzxPbqT
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: CATAGORY
+    ID: fld0pb7RU4fzmcl05
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tbl9G35eH4sY4hhVq","isReversed":false,"prefersSingleRecordLink":true,"inverseLinkFieldId":"fldRnIxDVa1VQd9rY"}
+
+  Field: IMAGE_NUMBER
+    ID: fldjY7S1Lhp7bWdjf
+    Type: number
+    Options: {"precision":0}
+
+  Field: HUMAN_READABLE_ID
+    ID: fldBIIKzF14eVy5Vb
+    Type: formula
+    Options: {"isValid":true,"formula":"CONCATENATE(\"KL_\",{fld0pb7RU4fzmcl05},\"-\",RIGHT(\"0000\"&{fldjY7S1Lhp7bWdjf},4))","referencedFieldIds":["fld0pb7RU4fzmcl05","fldjY7S1Lhp7bWdjf"],"result":{"type":"singleLineText"}}
+
+  Field: LOCATION
+    ID: fldHSPAW923y8ujkd
+    Type: singleLineText
+
+  Field: PEOPLE
+    ID: fldIHSbwHgiAyvRhe
+    Type: singleLineText
+
+  Field: ARTWORK_ID
+    ID: fldoc8tdPzZk0V0Ip
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldIeHyxxIYYr5Y7i"}
+
+  Field: FILE_LOCATION
+    ID: fldJe5tMyYUCeUKTs
+    Type: singleLineText
+
+  Field: NOTES
+    ID: fldNMBKQ4p3Z097SE
+    Type: multilineText
+
+
+TABLE: PHOTO_CATAGORY
+ID: tbl9G35eH4sY4hhVq
+--------------------------------------------------------------------------------
+  Field: CODE
+    ID: fldShl6r3itQBkdyC
+    Type: singleLineText
+
+  Field: CATAGORY
+    ID: fldBNAZd9rOFjDbe8
+    Type: singleLineText
+
+  Field: PHOTO
+    ID: fldRnIxDVa1VQd9rY
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblnSxzHB5dXk0DiL","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fld0pb7RU4fzmcl05"}
+
+
