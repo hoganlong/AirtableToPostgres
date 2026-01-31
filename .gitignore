@@ -52,3 +52,8 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+artwork_html/artworks.html
+artwork_html/index.html
+artwork_html/locations.html
+artwork_html/series.html
+artwork_html/style.css
