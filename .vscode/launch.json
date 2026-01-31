@@ -3,5 +3,50 @@
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
-  "configurations": []
+  "configurations": [
+    {
+      "name": "Sync All Tables",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Query Runner",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "args": ["query"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Generate HTML",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "args": ["html"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Show All Insights",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "args": ["showall"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Test Connection",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "args": ["test"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
 }
