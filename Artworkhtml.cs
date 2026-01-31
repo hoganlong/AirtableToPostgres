@@ -146,7 +146,7 @@ public class ArtworkHTML
                 location,
                 notes
             FROM artwork
-            ORDER BY create_dt DESC NULLS LAST, id_field DESC";
+            ORDER BY human_readable_id ASC NULLS LAST, id_field DESC";
 
         await using var cmd = new NpgsqlCommand(sql, connection);
         await using var reader = await cmd.ExecuteReaderAsync();
