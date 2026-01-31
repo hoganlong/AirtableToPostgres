@@ -6,47 +6,58 @@
   "configurations": [
     {
       "name": "Sync All Tables",
-      "type": "dotnet",
+      "type": "coreclr",
       "request": "launch",
-      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/AirtableToPostgres.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}"
+      "stopAtEntry": false
     },
     {
       "name": "Query Runner",
-      "type": "dotnet",
+      "type": "coreclr",
       "request": "launch",
-      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/AirtableToPostgres.dll",
       "args": ["query"],
+      "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}"
+      "stopAtEntry": false
     },
     {
       "name": "Generate HTML",
-      "type": "dotnet",
+      "type": "coreclr",
       "request": "launch",
-      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/AirtableToPostgres.dll",
       "args": ["html"],
+      "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}"
+      "stopAtEntry": false
     },
     {
       "name": "Show All Insights",
-      "type": "dotnet",
+      "type": "coreclr",
       "request": "launch",
-      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/AirtableToPostgres.dll",
       "args": ["showall"],
+      "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}"
+      "stopAtEntry": false
     },
     {
       "name": "Test Connection",
-      "type": "dotnet",
+      "type": "coreclr",
       "request": "launch",
-      "projectPath": "${workspaceFolder}/AirtableToPostgres.csproj",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/AirtableToPostgres.dll",
       "args": ["test"],
+      "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}"
+      "stopAtEntry": false
     }
   ]
 }
