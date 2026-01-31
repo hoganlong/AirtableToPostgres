@@ -39,13 +39,18 @@ public class SchemaGenerator
 
         // Add metadata fields
         sb.AppendLine("    created_time TIMESTAMP WITH TIME ZONE NOT NULL,");
-        sb.AppendLine("    synced_at TIMESTAMP WITH TIME ZONE NOT NULL");
+        sb.AppendLine("    synced_at TIMESTAMP WITH TIME ZONE NOT NULL,");
+        sb.AppendLine("    last_modified_at TIMESTAMP WITH TIME ZONE NULL");
         sb.AppendLine(");");
 
         // Add index on airtable_id
         sb.AppendLine();
         sb.AppendLine($"CREATE INDEX IF NOT EXISTS idx_{postgresTableName}_airtable_id");
         sb.AppendLine($"    ON {postgresTableName}(airtable_id);");
+
+        // Add migration: Add last_modified_at column if it doesn't exist
+        sb.AppendLine();
+        sb.AppendLine($"ALTER TABLE {postgresTableName} ADD COLUMN IF NOT EXISTS last_modified_at TIMESTAMP WITH TIME ZONE NULL;");
 
         return sb.ToString();
     }

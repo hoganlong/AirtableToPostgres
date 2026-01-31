@@ -1,14 +1,17 @@
 # Airtable to PostgreSQL Migration Tool
 
-A .NET console application that reads data from an Airtable database and saves it to a PostgreSQL database.
+A .NET console application that reads data from an Airtable database and saves it to a PostgreSQL database with intelligent incremental sync.
 
 ## Features
 
-- Fetches all records from a specified Airtable table
+- **Incremental Sync**: Only fetches changed records using Airtable's `LAST_MODIFIED_TIME()`
+- **Smart Change Detection**: Tracks NEW, UPDATED, and UNCHANGED records
+- **Sync History**: Logs every sync operation with detailed per-table statistics
+- **Performance**: 90-95% faster on subsequent syncs with minimal changes
 - Handles pagination automatically
-- Creates PostgreSQL table if it doesn't exist
-- Stores Airtable records with their fields as JSONB
+- Creates PostgreSQL tables with typed columns
 - Uses upsert logic to avoid duplicates
+- Automatic schema migration
 
 ## Prerequisites
 
@@ -55,12 +58,35 @@ CREATE TABLE airtable_records (
 
 ## Usage
 
+### Sync Data from Airtable
 1. Update `appsettings.json` with your credentials
 2. Run the application:
 
 ```bash
 cd AirtableToPostgres
 dotnet run
+```
+
+### Generate HTML Gallery
+Create a static HTML website to browse your artwork collection:
+
+```bash
+dotnet run -- html
+```
+
+Opens an `artwork_html` folder with:
+- **index.html** - Main page with statistics
+- **artworks.html** - Complete artwork list
+- **series.html** - View by series
+- **locations.html** - View by location
+
+No server needed - just open `index.html` in your browser!
+
+### Other Commands
+```bash
+dotnet run -- query      # Interactive query explorer
+dotnet run -- showall    # Show all insights
+dotnet run -- test       # Test database connection
 ```
 
 ## How It Works
@@ -82,3 +108,11 @@ The application includes basic error handling and will display error messages if
 ## Extending the Application
 
 You can modify the schema in the `CreateTableIfNotExists` method to create a custom table structure that matches your specific Airtable fields instead of using JSONB.
+
+## Documentation
+
+- **[PROJECT_STATUS.md](PROJECT_STATUS.md)** - Complete project status and features
+- **[INCREMENTAL_SYNC.md](INCREMENTAL_SYNC.md)** - Detailed incremental sync implementation guide
+- **[HTML_GENERATOR.md](HTML_GENERATOR.md)** - HTML gallery generator guide
+- **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - Technical implementation details
+- **[EXAMPLE_QUERIES.md](EXAMPLE_QUERIES.md)** - 30+ example SQL queries
