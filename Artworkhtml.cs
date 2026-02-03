@@ -204,6 +204,83 @@ public class ArtworkHTML
         await File.WriteAllTextAsync(Path.Combine(_outputDirectory, "artworks.html"), html.ToString());
     }
 
+
+/*
+    private async Task GenerateArtworkListPage()
+    {
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var sql = @"
+            SELECT
+                id_field,
+                human_readable_id,
+                title,
+                series,
+                create_dt,
+                medium,
+                dimensions,
+                location,
+                notes
+            FROM artwork
+            ORDER BY human_readable_id ASC NULLS LAST, id_field DESC";
+
+        await using var cmd = new NpgsqlCommand(sql, connection);
+        await using var reader = await cmd.ExecuteReaderAsync();
+
+        var html = new StringBuilder();
+        html.AppendLine(GetHtmlHeader("All Artworks - Keith Long Archive"));
+        html.AppendLine(@"
+    <div class='container'>
+        <h1>All Artworks</h1>
+        <p class='subtitle'><a href='index.html'>← Back to Home</a></p>
+
+        <table class='artwork-table'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Series</th>
+                    <th>Date</th>
+                    <th>Medium</th>
+                    <th>Dimensions</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>");
+
+        while (await reader.ReadAsync())
+        {
+            var id = reader.IsDBNull(0) ? "" : reader.GetInt32(0).ToString();
+            var humanId = reader.IsDBNull(1) ? "" : reader.GetString(1);
+            var title = reader.IsDBNull(2) ? "Untitled" : reader.GetString(2);
+            var series = reader.IsDBNull(3) ? "" : reader.GetString(3);
+            var date = reader.IsDBNull(4) ? "" : reader.GetDateTime(4).ToString("yyyy-MM-dd");
+            var medium = reader.IsDBNull(5) ? "" : reader.GetString(5);
+            var dimensions = reader.IsDBNull(6) ? "" : reader.GetString(6);
+            var location = reader.IsDBNull(7) ? "" : reader.GetString(7);
+
+            html.AppendLine($@"
+                <tr>
+                    <td class='id-cell'>{humanId}</td>
+                    <td class='title-cell'>{EscapeHtml(title)}</td>
+                    <td>{EscapeHtml(series)}</td>
+                    <td class='date-cell'>{date}</td>
+                    <td>{EscapeHtml(medium)}</td>
+                    <td class='dimensions-cell'>{EscapeHtml(dimensions)}</td>
+                    <td>{EscapeHtml(location)}</td>
+                </tr>");
+        }
+
+        html.AppendLine(@"
+            </tbody>
+        </table>
+    </div>");
+        html.AppendLine(GetHtmlFooter());
+
+        await File.WriteAllTextAsync(Path.Combine(_outputDirectory, "artworks.html"), html.ToString());
+    }
+*/
     private async Task GenerateSeriesPages()
     {
         await using var connection = new NpgsqlConnection(_connectionString);
