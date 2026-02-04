@@ -129,6 +129,16 @@ public class ArtworkHTML
         await File.WriteAllTextAsync(Path.Combine(_outputDirectory, "index.html"), html.ToString());
     }
 
+
+    private static string BlankOrWithBR(string inS, string prepend="")
+    {
+      if (!string.IsNullOrEmpty(inS))
+      {
+        return(prepend+inS+"<br/>");
+      }
+      else
+        return("");
+    }
     private async Task GenerateArtworkListPage()
     {
         await using var connection = new NpgsqlConnection(_connectionString);
@@ -137,68 +147,77 @@ public class ArtworkHTML
         var sql = @"
             SELECT
                 id_field,
-                human_readable_id,
+                -- reference_image
+                iFileName,
                 title,
                 series,
                 create_dt,
                 medium,
                 dimensions,
+                FOLDED_DIMENSIONS,
                 location,
-                notes
+                notes,
+                human_readable_id,
+                artwork_image_id
             FROM artwork
-            ORDER BY human_readable_id ASC NULLS LAST, id_field DESC";
+            ORDER BY human_readable_id ASC NULLS LAST";
 
         await using var cmd = new NpgsqlCommand(sql, connection);
         await using var reader = await cmd.ExecuteReaderAsync();
 
         var html = new StringBuilder();
         html.AppendLine(GetHtmlHeader("All Artworks - Keith Long Archive"));
+        /*
         html.AppendLine(@"
     <div class='container'>
         <h1>All Artworks</h1>
         <p class='subtitle'><a href='index.html'>← Back to Home</a></p>
-
-        <table class='artwork-table'>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Series</th>
-                    <th>Date</th>
-                    <th>Medium</th>
-                    <th>Dimensions</th>
-                    <th>Location</th>
-                </tr>
-            </thead>
-            <tbody>");
-
+        */
+        html.AppendLine("<div class='gallery'>");
         while (await reader.ReadAsync())
         {
             var id = reader.IsDBNull(0) ? "" : reader.GetInt32(0).ToString();
-            var humanId = reader.IsDBNull(1) ? "" : reader.GetString(1);
-            var title = reader.IsDBNull(2) ? "Untitled" : reader.GetString(2);
+            var iFileName = reader.IsDBNull(1) ? "" : reader.GetString(1);
+            var title = reader.IsDBNull(2) ? "" : reader.GetString(2);
             var series = reader.IsDBNull(3) ? "" : reader.GetString(3);
-            var date = reader.IsDBNull(4) ? "" : reader.GetDateTime(4).ToString("yyyy-MM-dd");
+            var ctDate = reader.IsDBNull(4) ? "" : reader.GetDateTime(4).ToString("yyyy-MM-dd");
             var medium = reader.IsDBNull(5) ? "" : reader.GetString(5);
             var dimensions = reader.IsDBNull(6) ? "" : reader.GetString(6);
-            var location = reader.IsDBNull(7) ? "" : reader.GetString(7);
+            var foldDimensions = reader.IsDBNull(7) ? "" : reader.GetString(7);
+            var location = reader.IsDBNull(8) ? "" : reader.GetString(8);
+            var notes = reader.IsDBNull(9) ? "" : reader.GetString(9);
+            var humanId = reader.IsDBNull(10) ? "" : reader.GetString(10);
+            var image_ids = reader.IsDBNull(11) ? "" : reader.GetString(11);
 
-            html.AppendLine($@"
-                <tr>
-                    <td class='id-cell'>{humanId}</td>
-                    <td class='title-cell'>{EscapeHtml(title)}</td>
-                    <td>{EscapeHtml(series)}</td>
-                    <td class='date-cell'>{date}</td>
-                    <td>{EscapeHtml(medium)}</td>
-                    <td class='dimensions-cell'>{EscapeHtml(dimensions)}</td>
-                    <td>{EscapeHtml(location)}</td>
-                </tr>");
+            bool haveImg = !string.IsNullOrEmpty(iFileName);
+            var tifURL = haveImg ? "https://keithlong-art-photos.s3.us-east-1.amazonaws.com/"+iFileName+".tif" : "";
+            var imgURL = haveImg ? "https://keithlong-art-photos.s3.us-east-1.amazonaws.com/jpg/"+iFileName+".jpg" : "";
+                     
+            html.AppendLine($@"<div class='gallery-item'>");
+            if (haveImg)
+            {
+              html.AppendLine($@"  <a href='{imgURL}' target='_blank' rel='noopener noreferrer'>
+                     <img src='{imgURL}' title='(click for full size)'/>
+                    </a><br/>
+                    <div class='desc'><a class='desc' href='{tifURL}'>[tif file]</a></div>");
+            }
+            html.AppendLine($"  <div class='desc'>"); 
+            html.AppendLine($"    {BlankOrWithBR(title,"  ")}");
+           // html.AppendLine($"    {BlankOrWithBR(series,"  ")}");
+            html.AppendLine($"    {BlankOrWithBR(ctDate,"  ")}");
+            html.AppendLine($"    {BlankOrWithBR(medium,"  ")}");
+            html.AppendLine($"    {BlankOrWithBR(dimensions,"  ")}");
+            html.AppendLine($"    {BlankOrWithBR(foldDimensions,"   Folded: ")}");
+          //  html.AppendLine($"    {BlankOrWithBR(location,"  Location: ")}");
+            html.AppendLine($"    {BlankOrWithBR(notes,"  Notes: ")}");
+            html.AppendLine($"    {BlankOrWithBR(humanId,"  ")}");
+            html.AppendLine($"  </div>"); 
+       //       html.AppendLine($"    {BlankOrWithBR(image_ids,"img: ")}");
+            
+            html.AppendLine($"</div>  <!-- gallery item -->"); 
         }
 
-        html.AppendLine(@"
-            </tbody>
-        </table>
-    </div>");
+        html.AppendLine(@"</div>");
         html.AppendLine(GetHtmlFooter());
 
         await File.WriteAllTextAsync(Path.Combine(_outputDirectory, "artworks.html"), html.ToString());
@@ -563,6 +582,35 @@ footer {
     color: #7f8c8d;
     font-size: 0.9em;
 }
+
+  div.gallery 
+  {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  div.gallery-item
+  {
+    margin: 5px;
+    border: 1px solid #ccc;
+    width: 180px;
+  }
+  div.gallery-item:hover
+  {
+    border: 1px solid #777;
+  }
+  div.gallery-item img
+  {
+    width: 100%;
+    height: auto;
+  }
+  div.gallery-item div.desc
+  {
+    padding: 5px;
+    text-align: center;
+  }
+
+
 
 @media (max-width: 768px) {
     .artwork-table {
