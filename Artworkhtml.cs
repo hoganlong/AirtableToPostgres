@@ -42,8 +42,8 @@ public class ArtworkHTML
 
         Console.WriteLine($"\n✓ HTML files generated successfully!");
         Console.WriteLine($"✓ Open: {Path.Combine(outputDirectory, "index.html")}");
-        Console.WriteLine("\nPress any key to exit...");
-        Console.ReadKey();
+     //   Console.WriteLine("\nPress any key to exit...");
+     //   Console.ReadKey();
     }
 
     public async Task GenerateAllPages()
@@ -167,13 +167,14 @@ public class ArtworkHTML
 
         var html = new StringBuilder();
         html.AppendLine(GetHtmlHeader("All Artworks - Keith Long Archive"));
-        /*
+        
         html.AppendLine(@"
     <div class='container'>
         <h1>All Artworks</h1>
         <p class='subtitle'><a href='index.html'>← Back to Home</a></p>
-        */
-        html.AppendLine("<div class='gallery'>");
+        ");
+
+        html.AppendLine("<div class='gallery' style='font-size: x-small;'>");
         while (await reader.ReadAsync())
         {
             var id = reader.IsDBNull(0) ? "" : reader.GetInt32(0).ToString();
