@@ -417,6 +417,12 @@ body {
 }
 
 .container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.oldcontainer {
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
@@ -594,7 +600,8 @@ footer {
   {
     margin: 5px;
     border: 1px solid #ccc;
-    width: 180px;
+    width: 250px;
+    oldwidth: 180px;
   }
   div.gallery-item:hover
   {
