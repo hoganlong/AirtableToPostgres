@@ -10,6 +10,7 @@
         "${workspaceFolder}/AirtableToPostgres.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
+
       ],
       "problemMatcher": "$msCompile"
     }
