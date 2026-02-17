@@ -18,7 +18,7 @@ public class RecordMapper
         _jsonbColumns = new HashSet<string>();
         foreach (var field in tableSchema.Fields)
         {
-            var pgType = typeMapper.MapFieldType(field);
+            var pgType = typeMapper.MapFieldType(field, tableSchema.Name);
             if (pgType == "JSONB")
             {
                 var columnName = SchemaGenerator.SanitizeColumnName(field.Name);
@@ -68,7 +68,7 @@ public class RecordMapper
 
         try
         {
-            var pgType = _typeMapper.MapFieldType(field);
+            var pgType = _typeMapper.MapFieldType(field, _tableSchema.Name);
 
             // Handle JSONB types - keep as JSON
             if (pgType == "JSONB")
@@ -76,9 +76,19 @@ public class RecordMapper
                 return JsonConvert.SerializeObject(rawValue);
             }
 
-            // Handle text types
-            if (pgType == "TEXT")
+            // Handle text types (TEXT or VARCHAR)
+            if (pgType == "TEXT" || pgType.StartsWith("VARCHAR"))
             {
+                // Special case: multipleRecordLinks mapped to TEXT/VARCHAR (single value expected)
+                if (field.Type == "multipleRecordLinks" && rawValue is JArray array)
+                {
+                    if (array.Count == 0)
+                    {
+                        return DBNull.Value;
+                    }
+                    // Extract first (and expected only) value from array
+                    return array[0].ToString();
+                }
                 return rawValue.ToString();
             }
 

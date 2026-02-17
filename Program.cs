@@ -48,6 +48,13 @@ class Program
             return;
         }
 
+        // Check if running in diagnostic mode
+        if (args.Length > 1 && args[0] == "diagnostic")
+        {
+            await DiagnosticFetch.Run(args[1]);
+            return;
+        }
+
         var airtableApiKey = configuration["Airtable:ApiKey"];
         var airtableBaseId = configuration["Airtable:BaseId"];
         var airtableTableName = configuration["Airtable:TableName"];

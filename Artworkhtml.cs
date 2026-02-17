@@ -141,26 +141,46 @@ public class ArtworkHTML
     }
     private async Task GenerateArtworkListPage()
     {
+        // S3 URL Templates - Edit these if paths change
+        const string S3_MAIN_JPG_URL = "https://keithlong-art-photos.s3.us-east-1.amazonaws.com/jpg/{0}.jpg";
+        const string S3_MAIN_TIF_URL = "https://keithlong-art-photos.s3.us-east-1.amazonaws.com/{0}.tif";
+        const string S3_ARTWORK_IMAGE_URL = "https://keithlong-art-photos.s3.us-east-1.amazonaws.com/atch/artwork_{0}_{1}.jpg";
+        // Format: artwork_{id}_{size}.jpg where size is: small, large, full
+
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
 
         var sql = @"
             SELECT
-                id_field,
-                -- reference_image
-                iFileName,
-                title,
-                series,
-                create_dt,
-                medium,
-                dimensions,
-                FOLDED_DIMENSIONS,
-                location,
-                notes,
-                human_readable_id,
-                artwork_image_id
-            FROM artwork
-            ORDER BY human_readable_id ASC NULLS LAST";
+                a.id_field,
+                a.iFileName,
+                a.title,
+                a.series,
+                a.create_dt,
+                a.medium,
+                a.dimensions,
+                a.FOLDED_DIMENSIONS,
+                a.location,
+                a.notes,
+                a.human_readable_id,
+                back_img.id_field as back_id,
+                front_img.id_field as front_id,
+                paper_img.id_field as paper_id,
+                polaroid_img.id_field as polaroid_id
+            FROM artwork a
+            LEFT JOIN artwork_image back_img
+              ON back_img.artwork_id = CAST(a.id_field AS VARCHAR)
+              AND back_img.view LIKE 'Back%'
+            LEFT JOIN artwork_image front_img
+              ON front_img.artwork_id = CAST(a.id_field AS VARCHAR)
+              AND front_img.view LIKE 'Front%'
+            LEFT JOIN artwork_image paper_img
+              ON paper_img.artwork_id = CAST(a.id_field AS VARCHAR)
+              AND paper_img.view LIKE 'Paper%'
+            LEFT JOIN artwork_image polaroid_img
+              ON polaroid_img.artwork_id = CAST(a.id_field AS VARCHAR)
+              AND polaroid_img.view LIKE 'Polaroid%'
+            ORDER BY a.human_readable_id ASC NULLS LAST";
 
         await using var cmd = new NpgsqlCommand(sql, connection);
         await using var reader = await cmd.ExecuteReaderAsync();
@@ -188,19 +208,68 @@ public class ArtworkHTML
             var location = reader.IsDBNull(8) ? "" : reader.GetString(8);
             var notes = reader.IsDBNull(9) ? "" : reader.GetString(9);
             var humanId = reader.IsDBNull(10) ? "" : reader.GetString(10);
-            var image_ids = reader.IsDBNull(11) ? "" : reader.GetString(11);
+            var backId = reader.IsDBNull(11) ? "" : reader.GetInt32(11).ToString();
+            var frontId = reader.IsDBNull(12) ? "" : reader.GetInt32(12).ToString();
+            var paperId = reader.IsDBNull(13) ? "" : reader.GetInt32(13).ToString();
+            var polaroidId = reader.IsDBNull(14) ? "" : reader.GetInt32(14).ToString();
 
             bool haveImg = !string.IsNullOrEmpty(iFileName);
-            var tifURL = haveImg ? "https://keithlong-art-photos.s3.us-east-1.amazonaws.com/"+iFileName+".tif" : "";
-            var imgURL = haveImg ? "https://keithlong-art-photos.s3.us-east-1.amazonaws.com/jpg/"+iFileName+".jpg" : "";
+            var tifURL = haveImg ? string.Format(S3_MAIN_TIF_URL, iFileName) : "";
+            var imgURL = haveImg ? string.Format(S3_MAIN_JPG_URL, iFileName) : "";
+
+            // If no main image, use large image from front view if available
+            if (!haveImg && !string.IsNullOrEmpty(frontId))
+            {
+              imgURL = string.Format(S3_ARTWORK_IMAGE_URL, frontId, "large");
+            }
                      
             html.AppendLine($@"<div class='gallery-item'>");
-            if (haveImg)
+            if (haveImg || !string.IsNullOrEmpty(imgURL))
             {
               html.AppendLine($@"  <a href='{imgURL}' target='_blank' rel='noopener noreferrer'>
                      <img src='{imgURL}' title='(click for full size)'/>
-                    </a><br/>
-                    <div class='desc'><a class='desc' href='{tifURL}'>[tif file]</a></div>");
+                    </a><br/>");
+              if (haveImg)
+              {
+                html.AppendLine($@"<div class='desc'><a class='desc' href='{tifURL}'>[tif file]</a></div>");
+              }
+
+              // Add thumbnail buttons for additional views
+              html.AppendLine($@"<div class='thumb-buttons'>");
+
+              if (!string.IsNullOrEmpty(backId))
+              {
+                var backSmall = string.Format(S3_ARTWORK_IMAGE_URL, backId, "small");
+                var backFull = string.Format(S3_ARTWORK_IMAGE_URL, backId, "full");
+                html.AppendLine($@"<a href='{backFull}' target='_blank' rel='noopener noreferrer' title='Back'>
+                  <img src='{backSmall}' class='thumb-button' alt='Back'/></a>");
+              }
+
+              if (!string.IsNullOrEmpty(frontId))
+              {
+                var frontSmall = string.Format(S3_ARTWORK_IMAGE_URL, frontId, "small");
+                var frontFull = string.Format(S3_ARTWORK_IMAGE_URL, frontId, "full");
+                html.AppendLine($@"<a href='{frontFull}' target='_blank' rel='noopener noreferrer' title='Front'>
+                  <img src='{frontSmall}' class='thumb-button' alt='Front'/></a>");
+              }
+
+              if (!string.IsNullOrEmpty(paperId))
+              {
+                var paperSmall = string.Format(S3_ARTWORK_IMAGE_URL, paperId, "small");
+                var paperFull = string.Format(S3_ARTWORK_IMAGE_URL, paperId, "full");
+                html.AppendLine($@"<a href='{paperFull}' target='_blank' rel='noopener noreferrer' title='Paper'>
+                  <img src='{paperSmall}' class='thumb-button' alt='Paper'/></a>");
+              }
+
+              if (!string.IsNullOrEmpty(polaroidId))
+              {
+                var polaroidSmall = string.Format(S3_ARTWORK_IMAGE_URL, polaroidId, "small");
+                var polaroidFull = string.Format(S3_ARTWORK_IMAGE_URL, polaroidId, "full");
+                html.AppendLine($@"<a href='{polaroidFull}' target='_blank' rel='noopener noreferrer' title='Polaroid'>
+                  <img src='{polaroidSmall}' class='thumb-button' alt='Polaroid'/></a>");
+              }
+
+              html.AppendLine($@"</div>");
             }
             html.AppendLine($"  <div class='desc'>"); 
             html.AppendLine($"    {BlankOrWithBR(title,"  ")}");
@@ -616,6 +685,29 @@ footer {
   {
     padding: 5px;
     text-align: center;
+  }
+  div.thumb-buttons
+  {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px;
+    flex-wrap: wrap;
+  }
+  img.thumb-button
+  {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  img.thumb-button:hover
+  {
+    border-color: #3498db;
+    transform: scale(1.1);
   }
 
 

@@ -32,7 +32,7 @@ public class SchemaGenerator
         foreach (var field in tableSchema.Fields)
         {
             var columnName = SanitizeColumnName(field.Name);
-            var columnType = _typeMapper.MapFieldType(field);
+            var columnType = _typeMapper.MapFieldType(field, tableSchema.Name);
 
             sb.AppendLine($"    {columnName} {columnType} NULL,");
         }

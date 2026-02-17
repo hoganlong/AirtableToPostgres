@@ -115,11 +115,6 @@ ID: tblZEmzVq0oW8hfRk
     Type: createdTime
     Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
 
-  Field: Code (from TYPE)
-    ID: fld6CfpiWoRXr21Qy
-    Type: multipleLookupValues
-    Options: {"isValid":true,"recordLinkFieldId":"fldIKlUaTxyhJxkcO","fieldIdInLinkedTable":"fldKd2l1cGcYv29yq","result":{"type":"singleLineText"}}
-
 
 TABLE: ARTWORK_IMAGE
 ID: tblT66JCQVbp0NvL3

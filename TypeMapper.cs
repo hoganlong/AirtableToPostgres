@@ -6,6 +6,7 @@ namespace AirtableToPostgres;
 public class TypeMapper
 {
     private readonly Dictionary<string, string> _typeMappings;
+    private readonly Dictionary<string, Dictionary<string, string>> _fieldSpecificMappings;
     private readonly HashSet<string> _loggedFields = new();
 
     public TypeMapper(IConfiguration? configuration = null)
@@ -29,6 +30,9 @@ public class TypeMapper
             { "multipleLookupValues", "JSONB" }
         };
 
+        // Initialize field-specific mappings
+        _fieldSpecificMappings = new Dictionary<string, Dictionary<string, string>>();
+
         // Load custom overrides from configuration if provided
         if (configuration != null)
         {
@@ -37,11 +41,33 @@ public class TypeMapper
             {
                 _typeMappings[mapping.Key] = mapping.Value ?? "TEXT";
             }
+
+            // Load field-specific mappings: Schema:FieldMappings:TableName:FieldName
+            var fieldMappings = configuration.GetSection("Schema:FieldMappings");
+            foreach (var table in fieldMappings.GetChildren())
+            {
+                var tableName = table.Key.ToUpper();
+                _fieldSpecificMappings[tableName] = new Dictionary<string, string>();
+
+                foreach (var field in table.GetChildren())
+                {
+                    var fieldName = field.Key.ToUpper();
+                    _fieldSpecificMappings[tableName][fieldName] = field.Value ?? "TEXT";
+                }
+            }
         }
     }
 
-    public string MapFieldType(FieldSchema field)
+    public string MapFieldType(FieldSchema field, string? tableName = null)
     {
+        // Check for field-specific override first
+        if (tableName != null &&
+            _fieldSpecificMappings.TryGetValue(tableName.ToUpper(), out var tableFields) &&
+            tableFields.TryGetValue(field.Name.ToUpper(), out var specificType))
+        {
+            return specificType;
+        }
+
         // Handle formula fields specially - check result type
         if (field.Type == "formula")
         {
