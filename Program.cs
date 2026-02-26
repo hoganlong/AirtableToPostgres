@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using AirtableToPostgres;
+using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
 
 class Program
 {
@@ -12,6 +14,29 @@ class Program
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
+
+    //    var airtableApiKey = configuration["Airtable:ApiKey"];
+    //    var airtableBaseId = configuration["Airtable:BaseId"];
+    //    var airtableTableName = configuration["Airtable:TableName"];
+        var outputDirectory = configuration["Output:Directory"] ?? "artwork_html";
+
+        // Get PostgreSQL credentials from AWS Secrets Manager
+        var secretArn = configuration["PostgreSQL:SecretArn"];
+        if (string.IsNullOrEmpty(secretArn))
+        {
+            throw new Exception("PostgreSQL:SecretArn not configured in appsettings.json");
+        }
+
+        Console.WriteLine("Retrieving database credentials from AWS Secrets Manager...");
+        var dbCredentials = await GetDatabaseCredentialsFromSecretsManager(secretArn);
+
+        // Build connection string with retrieved credentials
+        var host = configuration["PostgreSQL:Host"];
+        var database = configuration["PostgreSQL:Database"];
+        var port = configuration["PostgreSQL:Port"] ?? "5432";
+
+        var postgresConnectionString = $"Host={host};Port={port};Database={database};Username={dbCredentials.username};Password={dbCredentials.password};SSL Mode=Require;Trust Server Certificate=true";
+        Console.WriteLine("✓ Database credentials retrieved successfully\n");
 
         // Check if running in query mode
         if (args.Length > 0 && args[0] == "query")
@@ -58,7 +83,7 @@ class Program
         var airtableApiKey = configuration["Airtable:ApiKey"];
         var airtableBaseId = configuration["Airtable:BaseId"];
         var airtableTableName = configuration["Airtable:TableName"];
-        var postgresConnectionString = configuration["PostgreSQL:ConnectionString"];
+   //     var postgresConnectionString = configuration["PostgreSQL:ConnectionString"];
         var useCustomSchema = configuration.GetValue<bool>("Schema:UseCustomSchema", false);
         var syncAllTables = configuration.GetValue<bool>("Schema:SyncAllTables", false);
 
@@ -508,6 +533,35 @@ class Program
             {
                 cmd.Parameters.AddWithValue($"@{kvp.Key}", value);
             }
+        }
+    }
+
+    static async Task<(string username, string password)> GetDatabaseCredentialsFromSecretsManager(string secretArn)
+    {
+        try
+        {
+            var region = Amazon.RegionEndpoint.USEast1;
+            var client = new AmazonSecretsManagerClient(region);
+
+            var request = new GetSecretValueRequest
+            {
+                SecretId = secretArn
+            };
+
+            var response = await client.GetSecretValueAsync(request);
+            var secretString = response.SecretString;
+
+            // Parse the JSON secret
+            var secret = JObject.Parse(secretString);
+            var username = secret["username"]?.ToString() ?? throw new Exception("Username not found in secret");
+            var password = secret["password"]?.ToString() ?? throw new Exception("Password not found in secret");
+
+            return (username, password);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"✗ Error retrieving secret from AWS Secrets Manager: {ex.Message}");
+            throw;
         }
     }
 }
