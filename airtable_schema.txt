@@ -157,7 +157,7 @@ ID: tblT66JCQVbp0NvL3
 
   Field: URL
     ID: fld7N3FQ30igwgN8G
-    Type: url
+    Type: multilineText
 
 
 TABLE: ARCHIVE
