@@ -122,8 +122,8 @@ class Program
                         Console.WriteLine(new string('=', 60));
 
                         var statistics = await SyncTable(
-                            airtableApiKey,
-                            airtableBaseId,
+                            airtableApiKey!,
+                            airtableBaseId!,
                             tableSchema,
                             connection,
                             configuration,
@@ -176,8 +176,8 @@ class Program
 
                     Console.WriteLine($"Syncing single table: {tableSchema.Name}\n");
                     var statistics = await SyncTable(
-                        airtableApiKey,
-                        airtableBaseId,
+                        airtableApiKey!,
+                        airtableBaseId!,
                         tableSchema,
                         connection,
                         configuration,
@@ -207,7 +207,7 @@ class Program
             else
             {
                 // OLD: JSONB approach (existing code)
-                var records = await FetchAirtableRecords(airtableApiKey, airtableBaseId, airtableTableName);
+                var records = await FetchAirtableRecords(airtableApiKey!, airtableBaseId!, airtableTableName!);
                 Console.WriteLine($"Fetched {records.Count} records from Airtable");
                 await SaveToPostgreSQL(records, postgresConnectionString);
                 Console.WriteLine("Successfully saved all records to PostgreSQL");
@@ -367,7 +367,11 @@ class Program
             {
                 foreach (var record in recordsArray)
                 {
-                    records.Add(record as JObject);
+                    var jObject = record as JObject;
+                    if (jObject != null)
+                    {
+                        records.Add(jObject);
+                    }
                 }
             }
 
@@ -402,9 +406,9 @@ class Program
                     synced_at = EXCLUDED.synced_at";
 
             await using var cmd = new NpgsqlCommand(sql, connection);
-            cmd.Parameters.AddWithValue("airtableId", recordId);
+            cmd.Parameters.AddWithValue("airtableId", recordId!);
             cmd.Parameters.AddWithValue("fields", fields ?? "{}");
-            cmd.Parameters.AddWithValue("createdTime", DateTime.Parse(createdTime));
+            cmd.Parameters.AddWithValue("createdTime", DateTime.Parse(createdTime!));
             cmd.Parameters.AddWithValue("syncedAt", DateTime.UtcNow);
 
             await cmd.ExecuteNonQueryAsync();
