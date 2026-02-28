@@ -48,8 +48,14 @@ public class SchemaGenerator
         sb.AppendLine($"CREATE INDEX IF NOT EXISTS idx_{postgresTableName}_airtable_id");
         sb.AppendLine($"    ON {postgresTableName}(airtable_id);");
 
-        // Add migration: Add last_modified_at column if it doesn't exist
+        // Add migration: ensure all schema columns exist (safe for existing tables)
         sb.AppendLine();
+        foreach (var field in tableSchema.Fields)
+        {
+            var columnName = SanitizeColumnName(field.Name);
+            var columnType = _typeMapper.MapFieldType(field, tableSchema.Name);
+            sb.AppendLine($"ALTER TABLE {postgresTableName} ADD COLUMN IF NOT EXISTS {columnName} {columnType} NULL;");
+        }
         sb.AppendLine($"ALTER TABLE {postgresTableName} ADD COLUMN IF NOT EXISTS last_modified_at TIMESTAMP WITH TIME ZONE NULL;");
 
         return sb.ToString();
