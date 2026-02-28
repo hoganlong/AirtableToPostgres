@@ -1,6 +1,6 @@
 # Keith Long Archive - Project Status
 
-**Last Updated**: January 30, 2026
+**Last Updated**: February 28, 2026
 **Status**: ✅ Fully Operational with Incremental Sync
 
 ---
@@ -200,9 +200,9 @@ LIMIT 10;
 **Core Sync Engine:**
 - `Program.cs` - Main sync application with incremental sync logic
 - `airtable_schema.txt` - Schema definitions for all 8 tables
-- `SchemaParser.cs` - Parses schema file
+- `SchemaParser.cs` - Parses schema file (fixed: last-field-per-table bug)
 - `TypeMapper.cs` - Maps Airtable types to PostgreSQL
-- `SchemaGenerator.cs` - Generates CREATE TABLE DDL with last_modified_at column
+- `SchemaGenerator.cs` - Generates CREATE TABLE DDL + auto-migrates all schema columns
 - `RecordMapper.cs` - Transforms records to typed data
 
 **Incremental Sync (NEW):**
@@ -228,6 +228,41 @@ LIMIT 10;
 ---
 
 ## Recently Completed Features
+
+### ✅ Schema Parser & Migration Bug Fixes (February 28, 2026)
+
+**Bug 1 — SchemaParser last-field assignment (`SchemaParser.cs`)**
+Each table's last field in `airtable_schema.txt` was being silently assigned to the *next* table.
+Root cause: when a `TABLE:` line was encountered, `currentTable` was saved to the schema list before
+flushing the pending `currentField` into it. The dangling field was then added to the next table's
+field list when its first `Field:` line was parsed.
+
+Impact: notable examples —
+- `ARCHIVE` table missing its `SOLD` link field (last field of ARCHIVE block)
+- `ARTWORK_IMAGE` table missing its `URL` text field (last field of ARTWORK_IMAGE block)
+
+Fix: flush `currentField` into `currentTable` *before* saving `currentTable` when a new `TABLE:` line is hit.
+
+**Bug 2 — SchemaGenerator column migration (`SchemaGenerator.cs`)**
+The DDL generator only emitted an `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` migration for the
+`last_modified_at` metadata column. Any schema field added after a table was first created (including
+fields recovered by the SchemaParser fix above) would not be added to existing DB tables, causing
+`column "X" of relation "Y" does not exist` errors at runtime.
+
+Fix: emit `ADD COLUMN IF NOT EXISTS` for every field in the table schema, ensuring the DB schema
+stays in sync with `airtable_schema.txt` on every sync run.
+
+**How to force a full re-sync after these fixes:**
+```sql
+-- Force full re-sync of one table
+DELETE FROM sync_history WHERE table_details::text LIKE '%ARTWORK_IMAGE%';
+
+-- Force full re-sync of all tables
+DELETE FROM sync_history;
+```
+Then run `dotnet run`.
+
+---
 
 ### ✅ HTML Artwork Gallery Generator (January 30, 2026)
 - Static HTML site generator for browsing the artwork collection

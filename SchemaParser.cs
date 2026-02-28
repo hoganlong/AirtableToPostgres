@@ -60,6 +60,12 @@ public class SchemaParser
             // Parse table header
             if (line.StartsWith("TABLE:"))
             {
+                // Flush last field into table before saving
+                if (currentField != null && currentTable != null)
+                {
+                    currentTable.Fields.Add(currentField);
+                    currentField = null;
+                }
                 // Save previous table if exists
                 if (currentTable != null)
                 {
