@@ -529,7 +529,7 @@ class Program
     {
         var updateSet = string.Join(", ",
             columns.Keys
-                .Where(k => k != "airtable_id" && k != "created_time")
+                .Where(k => k != "airtable_id")
                 .Select(k => $"{k} = @{k}"));
 
         var sql = $"UPDATE {tableName} SET {updateSet} WHERE airtable_id = @airtable_id";

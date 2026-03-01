@@ -40,7 +40,7 @@ public class RecordMapper
         result["airtable_id"] = airtableRecord["id"]?.ToString() ?? throw new InvalidOperationException("Record missing id");
 
         var createdTimeStr = airtableRecord["createdTime"]?.ToString();
-        result["created_time"] = ParseDateTime(createdTimeStr) ?? throw new InvalidOperationException("Record missing createdTime");
+        result["rec_create_dt"] = ParseDateTime(createdTimeStr) ?? throw new InvalidOperationException("Record missing createdTime");
 
         result["synced_at"] = DateTime.UtcNow;
 
