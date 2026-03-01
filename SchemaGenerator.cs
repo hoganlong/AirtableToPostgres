@@ -24,6 +24,9 @@ public class SchemaGenerator
     {
         var sb = new StringBuilder();
 
+        // Check if schema already provides rec_create_dt (e.g. via Airtable createdTime field)
+        var hasRecCreateDtInSchema = tableSchema.Fields.Any(f => SanitizeColumnName(f.Name) == "rec_create_dt");
+
         sb.AppendLine($"CREATE TABLE IF NOT EXISTS {postgresTableName} (");
         sb.AppendLine("    id SERIAL PRIMARY KEY,");
         sb.AppendLine("    airtable_id VARCHAR(255) UNIQUE NOT NULL,");
@@ -37,8 +40,11 @@ public class SchemaGenerator
             sb.AppendLine($"    {columnName} {columnType} NULL,");
         }
 
-        // Add metadata fields
-        sb.AppendLine("    created_time TIMESTAMP WITH TIME ZONE NOT NULL,");
+        // Add metadata fields (rec_create_dt only if schema doesn't already define it)
+        if (!hasRecCreateDtInSchema)
+        {
+            sb.AppendLine("    rec_create_dt TIMESTAMP WITH TIME ZONE NOT NULL,");
+        }
         sb.AppendLine("    synced_at TIMESTAMP WITH TIME ZONE NOT NULL,");
         sb.AppendLine("    last_modified_at TIMESTAMP WITH TIME ZONE NULL");
         sb.AppendLine(");");
@@ -56,6 +62,7 @@ public class SchemaGenerator
             var columnType = _typeMapper.MapFieldType(field, tableSchema.Name);
             sb.AppendLine($"ALTER TABLE {postgresTableName} ADD COLUMN IF NOT EXISTS {columnName} {columnType} NULL;");
         }
+        sb.AppendLine($"ALTER TABLE {postgresTableName} ADD COLUMN IF NOT EXISTS rec_create_dt TIMESTAMP WITH TIME ZONE NULL;");
         sb.AppendLine($"ALTER TABLE {postgresTableName} ADD COLUMN IF NOT EXISTS last_modified_at TIMESTAMP WITH TIME ZONE NULL;");
 
         return sb.ToString();
