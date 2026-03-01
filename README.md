@@ -84,9 +84,13 @@ No server needed - just open `index.html` in your browser!
 
 ### Other Commands
 ```bash
-dotnet run -- query      # Interactive query explorer
-dotnet run -- showall    # Show all insights
-dotnet run -- test       # Test database connection
+dotnet run                          # Incremental sync all tables
+dotnet run -- full                  # Force full sync all tables
+dotnet run -- sync ARTWORK          # Incremental sync one table
+dotnet run -- sync ARTWORK full     # Force full sync one table
+dotnet run -- query                 # Interactive query explorer
+dotnet run -- showall               # Show all insights
+dotnet run -- test                  # Test database connection
 ```
 
 ## How It Works
