@@ -66,13 +66,6 @@ class Program
             return;
         }
 
-        // Check if running in HTML generation mode
-        if (args.Length > 0 && args[0] == "html")
-        {
-            await ArtworkHTML.Run();
-            return;
-        }
-
         // Check if running in diagnostic mode
         if (args.Length > 1 && args[0] == "diagnostic")
         {
@@ -86,6 +79,25 @@ class Program
    //     var postgresConnectionString = configuration["PostgreSQL:ConnectionString"];
         var useCustomSchema = configuration.GetValue<bool>("Schema:UseCustomSchema", false);
         var syncAllTables = configuration.GetValue<bool>("Schema:SyncAllTables", false);
+
+        // Command line override: dotnet run -- sync <TABLENAME> [full]
+        //   dotnet run -- sync ARTWORK       (incremental)
+        //   dotnet run -- sync ARTWORK full  (force full sync)
+        //   dotnet run -- full               (force full sync for all tables)
+        var forceFullSync = args.Contains("full");
+        if (args.Length > 0 && args[0] == "sync")
+        {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Usage: dotnet run -- sync <TABLENAME> [full]");
+                Console.WriteLine("Available tables: ARTWORK, ARTWORK_IMAGE, PHOTO, SOLD, ARCHIVE, ARCHIVE_IMAGE, ARTWORK_TYPE, PHOTO_CATAGORY");
+                Console.WriteLine("Add 'full' to bypass incremental sync and fetch all records.");
+                return;
+            }
+            airtableTableName = args[1].ToUpper();
+            syncAllTables = false;
+            Console.WriteLine($"Single-table sync mode: {airtableTableName}{(forceFullSync ? " (FULL)" : "")}");
+        }
 
         Console.WriteLine("Starting Airtable to PostgreSQL migration...");
         Console.WriteLine($"Mode: {(useCustomSchema ? "Custom Schema (Typed Columns)" : "JSONB (Legacy)")}");
@@ -127,7 +139,8 @@ class Program
                             tableSchema,
                             connection,
                             configuration,
-                            syncHistoryLogger);
+                            syncHistoryLogger,
+                            forceFullSync);
 
                         globalStatistics[tableSchema.Name] = statistics;
                         Console.WriteLine();
@@ -181,7 +194,8 @@ class Program
                         tableSchema,
                         connection,
                         configuration,
-                        syncHistoryLogger);
+                        syncHistoryLogger,
+                        forceFullSync);
 
                     globalStatistics[tableSchema.Name] = statistics;
 
@@ -260,15 +274,22 @@ class Program
         TableSchema tableSchema,
         NpgsqlConnection connection,
         IConfiguration configuration,
-        SyncHistoryLogger syncHistoryLogger)
+        SyncHistoryLogger syncHistoryLogger,
+        bool forceFullSync = false)
     {
         var tableStartTime = DateTime.UtcNow;
         var statistics = new SyncStatistics { TableName = tableSchema.Name };
 
-        // Get last sync timestamp for incremental sync
-        var lastSyncTime = await syncHistoryLogger.GetLastSyncTimestamp(connection, tableSchema.Name);
+        // Get last sync timestamp for incremental sync (skipped when forcing full)
+        var lastSyncTime = forceFullSync
+            ? null
+            : await syncHistoryLogger.GetLastSyncTimestamp(connection, tableSchema.Name);
 
-        if (lastSyncTime.HasValue)
+        if (forceFullSync)
+        {
+            Console.WriteLine($"  Mode: Full sync (forced)");
+        }
+        else if (lastSyncTime.HasValue)
         {
             Console.WriteLine($"  Mode: Incremental sync (since {lastSyncTime.Value:yyyy-MM-dd HH:mm:ss} UTC)");
             Console.WriteLine($"  Filter: IS_AFTER(LAST_MODIFIED_TIME(), \"{lastSyncTime.Value.ToUniversalTime():yyyy-MM-ddTHH:mm:ss.fffZ}\")");

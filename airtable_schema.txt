@@ -1,5 +1,5 @@
 AIRTABLE SCHEMA EXPORT
-Generated: 2026-01-28 10:43:50
+Generated: 2026-03-01 13:51:32
 ================================================================================
 
 TABLE: ARTWORK
@@ -14,7 +14,7 @@ ID: tblZEmzVq0oW8hfRk
     Type: multipleLookupValues
     Options: {"isValid":true,"recordLinkFieldId":"fldpmZnqY392WxbtP","fieldIdInLinkedTable":"fld0n6eOCP3hlcp8F","result":{"type":"multipleAttachments","options":{"isReversed":false}}}
 
-  Field: iFileName
+  Field: FILENAME
     ID: flddZ0YAJhBm3jBfG
     Type: singleLineText
     Description: The file name for the jpg and tiff file located on aws.
@@ -133,6 +133,10 @@ ID: tblT66JCQVbp0NvL3
     Type: multipleAttachments
     Options: {"isReversed":false}
 
+  Field: URL
+    ID: fld7N3FQ30igwgN8G
+    Type: multilineText
+
   Field: CREATE_DT
     ID: fldUXEjoTYcHJc6iE
     Type: date
@@ -154,10 +158,6 @@ ID: tblT66JCQVbp0NvL3
     ID: fld4MTf12LheBFFnH
     Type: createdTime
     Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
-
-  Field: URL
-    ID: fld7N3FQ30igwgN8G
-    Type: multilineText
 
 
 TABLE: ARCHIVE

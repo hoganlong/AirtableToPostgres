@@ -104,6 +104,14 @@ LIMIT 10;
   - Safe to run multiple times
 - **Config**: `appsettings.json` → `SyncAllTables: true`
 
+**Sync Command Options**:
+```bash
+dotnet run                          # Incremental sync all tables
+dotnet run -- full                  # Force full sync all tables
+dotnet run -- sync ARTWORK          # Incremental sync one table
+dotnet run -- sync ARTWORK full     # Force full sync one table
+```
+
 #### 2. Query Explorer (Interactive)
 - **Run**: Double-click `QueryExplorer.bat` or `dotnet run -- query`
 - **Features**: 13 pre-built queries including:
