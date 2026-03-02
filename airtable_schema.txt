@@ -1,5 +1,5 @@
 AIRTABLE SCHEMA EXPORT
-Generated: 2026-03-01 13:51:32
+Generated: 2026-03-01 17:06:54
 ================================================================================
 
 TABLE: ARTWORK
@@ -80,16 +80,6 @@ ID: tblZEmzVq0oW8hfRk
     ID: fld6S8jKsfgylZnRG
     Type: formula
     Options: {"isValid":true,"formula":"CONCATENATE(\"KL_\", YEAR({fldKHdHV2wA6ttQT3}), \"_\", {fld6CfpiWoRXr21Qy}, \"_\", RIGHT('0000'&{fldWGxk2OrYSAwQni},4))","referencedFieldIds":["fldKHdHV2wA6ttQT3","fld6CfpiWoRXr21Qy","fldWGxk2OrYSAwQni"],"result":{"type":"singleLineText"}}
-
-  Field: FrontCount
-    ID: fldSHCwLPHlANUO2A
-    Type: count
-    Options: {"isValid":true,"recordLinkFieldId":"fldpmZnqY392WxbtP"}
-
-  Field: BackCount
-    ID: fld8z8I13VTnFVgUq
-    Type: count
-    Options: {"isValid":true,"recordLinkFieldId":"fldpmZnqY392WxbtP"}
 
   Field: PHOTO_ID
     ID: fldIeHyxxIYYr5Y7i
@@ -209,10 +199,6 @@ ID: tblp53BYcUmGcZhh4
     ID: fldOYGanzOU21fEjR
     Type: multilineText
 
-  Field: REC_CREATE_DT
-    ID: fldtj6V8ZQefMVwxT
-    Type: multilineText
-
   Field: ARCHIVE_IMAGE
     ID: fldQuMBSw9Fwjjjg5
     Type: multipleRecordLinks
@@ -251,10 +237,6 @@ ID: tbl7tfcwBa4CB5OJR
 
   Field: VIEW
     ID: fldoyymg9EAFcvSo1
-    Type: multilineText
-
-  Field: REC_CREATE_DT
-    ID: fldtsDMxlQuByYwee
     Type: multilineText
 
   Field: ARCHIVE_ID
@@ -421,5 +403,67 @@ ID: tbl9G35eH4sY4hhVq
     ID: fldRnIxDVa1VQd9rY
     Type: multipleRecordLinks
     Options: {"linkedTableId":"tblnSxzHB5dXk0DiL","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fld0pb7RU4fzmcl05"}
+
+
+TABLE: SKETCH
+ID: tbl9ZwP77UK2VsjgE
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fldnEbhCTyB4rV4m0
+    Type: autoNumber
+
+  Field: SKETCH_DT
+    ID: fldRB35OQ2SOrwkvk
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: DESCRIPTION
+    ID: fld0z1W1ZGpIml2GG
+    Type: multilineText
+
+  Field: SKETCH_LOC
+    ID: fldsZxQX0qFb4GUGl
+    Type: singleLineText
+
+  Field: SKETCH_PEOPLE
+    ID: fldLtpJDAJ98vRTb7
+    Type: singleLineText
+
+  Field: SKETCH_MEDIUM
+    ID: fldHxCA0RmNqQYAL5
+    Type: singleLineText
+
+  Field: SKETCHBOOK_NUMBER
+    ID: fldunUKbWZdaUpqLF
+    Type: number
+    Options: {"precision":0}
+
+  Field: PAGE_NUMBER
+    ID: fld7ZgBsuG9Sx6He8
+    Type: number
+    Options: {"precision":0}
+
+  Field: ARTWORK_ID
+    ID: fldSL78lnpDaFfB5e
+    Type: multipleRecordLinks
+    Description: If associated with an artwork
+    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":true,"inverseLinkFieldId":"fldr3yaeuAPveZIcZ"}
+
+  Field: FILENAME
+    ID: fldH0qNze6kR9MyPP
+    Type: singleLineText
+
+  Field: SKETCH_CREATE_DT
+    ID: fldb5Mh4ilEhrQ6uK
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: PUB_NOTES
+    ID: fldI0ZX3kIWsb4oGk
+    Type: multilineText
+
+  Field: ARCHIVE_NOTES
+    ID: fldfEPSLEentsOphz
+    Type: multilineText
 
 

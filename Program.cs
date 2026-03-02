@@ -292,7 +292,7 @@ class Program
         else if (lastSyncTime.HasValue)
         {
             Console.WriteLine($"  Mode: Incremental sync (since {lastSyncTime.Value:yyyy-MM-dd HH:mm:ss} UTC)");
-            Console.WriteLine($"  Filter: IS_AFTER(LAST_MODIFIED_TIME(), \"{lastSyncTime.Value.ToUniversalTime():yyyy-MM-ddTHH:mm:ss.fffZ}\")");
+            Console.WriteLine($"  Filter: OR(IS_AFTER(LAST_MODIFIED_TIME(), ...), IS_AFTER(CREATED_TIME(), \"{lastSyncTime.Value.ToUniversalTime():yyyy-MM-ddTHH:mm:ss.fffZ}\"))");
         }
         else
         {
@@ -367,7 +367,7 @@ class Program
             if (lastSyncTime.HasValue)
             {
                 var isoTime = lastSyncTime.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
-                var formula = $"IS_AFTER(LAST_MODIFIED_TIME(), \"{isoTime}\")";
+                var formula = $"OR(IS_AFTER(LAST_MODIFIED_TIME(), \"{isoTime}\"), IS_AFTER(CREATED_TIME(), \"{isoTime}\"))";
                 url += $"?filterByFormula={Uri.EscapeDataString(formula)}";
             }
 
