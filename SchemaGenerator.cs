@@ -64,6 +64,7 @@ public class SchemaGenerator
         }
         sb.AppendLine($"ALTER TABLE {postgresTableName} ADD COLUMN IF NOT EXISTS rec_create_dt TIMESTAMP WITH TIME ZONE NULL;");
         sb.AppendLine($"ALTER TABLE {postgresTableName} ADD COLUMN IF NOT EXISTS last_modified_at TIMESTAMP WITH TIME ZONE NULL;");
+        sb.AppendLine($"ALTER TABLE {postgresTableName} DROP COLUMN IF EXISTS created_time;");
 
         return sb.ToString();
     }
