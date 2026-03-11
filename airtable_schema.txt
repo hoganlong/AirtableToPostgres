@@ -324,11 +324,6 @@ ID: tbl6SbZP4HV0yvHoQ
     ID: fldYsUBvmXXz4xRU8
     Type: multilineText
 
-  Field: ARTWORK
-    ID: fldPpj8HTVegecKgR
-    Type: multipleRecordLinks
-    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldIKlUaTxyhJxkcO"}
-
 
 TABLE: PHOTO
 ID: tblnSxzHB5dXk0DiL

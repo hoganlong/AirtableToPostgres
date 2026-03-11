@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(while read f)",
+      "Bash(do grep -l \"artwork_type\" \"$f\")",
+      "Bash(echo \"$f\")",
+      "Bash(done)",
+      "Bash(xargs grep:*)"
     ]
   }
 }

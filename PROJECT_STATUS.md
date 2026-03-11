@@ -1,6 +1,6 @@
 # Keith Long Archive - Project Status
 
-**Last Updated**: February 28, 2026
+**Last Updated**: March 11, 2026
 **Status**: ✅ Fully Operational with Incremental Sync
 
 ---
@@ -15,7 +15,7 @@
 - **Access**: Configured for IP `151.204.130.39`
 
 ### Data Synced
-Successfully synced **8 tables** with **3,129 records** from Airtable:
+Successfully synced **9 tables** with **3,375+ records** from Airtable:
 
 | Table | Records | Status |
 |-------|---------|--------|
@@ -27,6 +27,7 @@ Successfully synced **8 tables** with **3,129 records** from Airtable:
 | ARCHIVE_IMAGE | 3 | ✅ Synced |
 | ARTWORK_TYPE | 8 | ✅ Synced |
 | PHOTO_CATAGORY | 5 | ✅ Synced |
+| SKETCH | 246 | ✅ Synced |
 
 ### Schema Implementation
 - **Type**: Custom Schema with Typed Columns
@@ -236,6 +237,12 @@ dotnet run -- sync ARTWORK full     # Force full sync one table
 ---
 
 ## Recently Completed Features
+
+### ✅ ARTWORK_TYPE Schema Cleanup (March 11, 2026)
+- Removed the `ARTWORK` reverse-link field from `ARTWORK_TYPE` in `airtable_schema.txt`
+- Dropped the `artwork` column from the `artwork_type` PostgreSQL table
+- Confirmed column was not referenced in AirtableToPostgres or ArtWorkHTML projects
+- No code changes required — RecordMapper and SchemaGenerator drive entirely from the schema file
 
 ### ✅ Schema Parser & Migration Bug Fixes (February 28, 2026)
 
