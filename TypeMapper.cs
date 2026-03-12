@@ -27,7 +27,8 @@ public class TypeMapper
             { "count", "INTEGER" },
             { "multipleRecordLinks", "JSONB" },
             { "multipleAttachments", "JSONB" },
-            { "multipleLookupValues", "JSONB" }
+            { "multipleLookupValues", "JSONB" },
+            { "checkbox", "BOOLEAN" }
         };
 
         // Initialize field-specific mappings

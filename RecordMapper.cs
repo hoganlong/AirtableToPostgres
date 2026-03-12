@@ -150,6 +150,20 @@ public class RecordMapper
                 return DBNull.Value;
             }
 
+            // Handle BOOLEAN
+            if (pgType == "BOOLEAN")
+            {
+                if (rawValue.Type == JTokenType.Boolean)
+                {
+                    return rawValue.Value<bool>();
+                }
+                var strVal = rawValue.ToString().ToLower();
+                if (strVal == "true" || strVal == "1" || strVal == "yes") return true;
+                if (strVal == "false" || strVal == "0" || strVal == "no") return false;
+                Console.WriteLine($"Warning: Could not parse '{rawValue}' as BOOLEAN for field '{field.Name}'");
+                return DBNull.Value;
+            }
+
             // Fallback to string
             return rawValue.ToString();
         }
