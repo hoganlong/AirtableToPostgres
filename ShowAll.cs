@@ -13,15 +13,9 @@ public class ShowAll
         _connectionString = connectionString;
     }
 
-    public static async Task Run()
+    public static async Task Run(string inConStr)
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        var connectionString = configuration["PostgreSQL:ConnectionString"];
-        var show = new ShowAll(connectionString!);
+        var show = new ShowAll(inConStr!);
 
         Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
         Console.WriteLine("║           Keith Long Archive - Data Insights              ║");
