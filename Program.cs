@@ -41,28 +41,28 @@ class Program
         // Check if running in query mode
         if (args.Length > 0 && args[0] == "query")
         {
-            await QueryRunner.Run();
+            await QueryRunner.Run(postgresConnectionString);
             return;
         }
 
         // Check if running in test mode
         if (args.Length > 0 && args[0] == "test")
         {
-            await QuickTest.Run();
+            await QuickTest.Run(postgresConnectionString);
             return;
         }
 
         // Check if running in insights mode
         if (args.Length > 0 && args[0] == "insights")
         {
-            await ShowInsights.Run();
+            await ShowInsights.Run(postgresConnectionString);
             return;
         }
 
         // Check if running in showall mode
         if (args.Length > 0 && args[0] == "showall")
         {
-            await ShowAll.Run();
+            await ShowAll.Run(postgresConnectionString);
             return;
         }
 

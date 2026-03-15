@@ -13,15 +13,9 @@ public class QueryRunner
         _connectionString = connectionString;
     }
 
-    public static async Task Run()
+    public static async Task Run(string inConStr)
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        var connectionString = configuration["PostgreSQL:ConnectionString"];
-        var runner = new QueryRunner(connectionString!);
+        var runner = new QueryRunner(inConStr);
 
         Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
         Console.WriteLine("║        Keith Long Archive - Query Explorer                ║");
