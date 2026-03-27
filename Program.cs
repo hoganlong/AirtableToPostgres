@@ -45,6 +45,25 @@ class Program
             return;
         }
 
+        // Check if running in deleted mode
+        if (args.Length > 0 && args[0] == "deleted")
+        {
+            var airtableApiKey2 = configuration["Airtable:ApiKey"];
+            var airtableBaseId2 = configuration["Airtable:BaseId"];
+            var schemaFilePath2 = configuration["Schema:SchemaFilePath"] ?? "airtable_schema.txt";
+            var schemaParser2 = new SchemaParser();
+            var airtableSchema2 = schemaParser2.Parse(schemaFilePath2);
+
+            await using var connection2 = new NpgsqlConnection(postgresConnectionString);
+            await connection2.OpenAsync();
+
+            string? singleTable2 = args.Length > 1 ? args[1].ToUpper() : null;
+
+            var checker = new DeletedRecordsChecker();
+            await checker.Run(airtableApiKey2!, airtableBaseId2!, airtableSchema2, connection2, singleTable2);
+            return;
+        }
+
         // Check if running in test mode
         if (args.Length > 0 && args[0] == "test")
         {
