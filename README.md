@@ -91,7 +91,28 @@ dotnet run -- sync ARTWORK full     # Force full sync one table
 dotnet run -- query                 # Interactive query explorer
 dotnet run -- showall               # Show all insights
 dotnet run -- test                  # Test database connection
+dotnet run -- deleted               # Check all tables for records deleted in Airtable
+dotnet run -- deleted ARTWORK       # Check a single table for deleted records
 ```
+
+### Deleted Records Check
+
+The `deleted` mode fetches all record IDs from Airtable and compares them against the database. Since syncs never delete rows, this reports any records present in the DB but no longer in Airtable.
+
+For each table with deleted records, it prints the airtable ID, an optional label (title/name/filename if available), and the last synced timestamp. It then prompts:
+
+```
+  Generate DELETE SQL for artwork? (y/n):
+```
+
+If you answer `y`, it outputs SQL that first backs up the rows to a timestamped table, then deletes them:
+
+```sql
+CREATE TABLE artwork_backup_260327 AS SELECT * FROM artwork WHERE airtable_id IN ('recABC123');
+DELETE FROM artwork WHERE airtable_id IN ('recABC123');
+```
+
+The backup table name format is `<table>_backup_YYMMDD`. No data is modified by the tool itself — the SQL is printed for you to review and run manually.
 
 ## How It Works
 
