@@ -58,7 +58,7 @@ SELECT * FROM artwork_image;
 ### Step 2: Run Migration
 Execute the migration script:
 ```bash
-cd /c/Users/Hogan/Projects/claudetest/AirtableToPostgres
+cd /d/Projects/claudetest/AirtableToPostgres
 psql -h keithlong-archive.cluster-cwlmm0oodeot.us-east-1.rds.amazonaws.com \
      -U hoganlong \
      -d keithlongarchive \
@@ -101,7 +101,7 @@ FROM artwork_image;
 Run a sync to ensure the ETL program handles the new schema:
 
 ```bash
-cd /c/Users/Hogan/Projects/claudetest/AirtableToPostgres
+cd /d/Projects/claudetest/AirtableToPostgres
 dotnet run
 ```
 
