@@ -332,7 +332,7 @@ class Program
 
         var typeMapper = new TypeMapper(configuration);
         var schemaGenerator = new SchemaGenerator(typeMapper);
-        var recordMapper = new RecordMapper(tableSchema, typeMapper);
+        var recordMapper = new RecordMapper(tableSchema, typeMapper, configuration);
         var changeDetector = new ChangeDetector();
 
         var postgresTableName = SchemaGenerator.SanitizeTableName(tableSchema.Name);

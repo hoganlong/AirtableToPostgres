@@ -552,7 +552,7 @@ WHERE search_vector @@ to_tsquery('english', 'watercolor & garden');
 
 ### Re-sync Data from Airtable
 ```bash
-cd C:\Users\Hogan\Projects\claudetest\AirtableToPostgres
+cd D:\Projects\claudetest\AirtableToPostgres
 dotnet run
 ```
 
@@ -606,7 +606,7 @@ QueryExplorer.bat
 
 ## Contact & Support
 
-**Project Location**: `C:\Users\Hogan\Projects\claudetest\AirtableToPostgres`
+**Project Location**: `D:\Projects\claudetest\AirtableToPostgres`
 
 **Database Access**:
 - RDS Endpoint: `keithlong-archive.cluster-cwlmm0oodeot.us-east-1.rds.amazonaws.com`

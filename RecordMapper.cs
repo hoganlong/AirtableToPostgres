@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -8,14 +9,15 @@ public class RecordMapper
     private readonly TableSchema _tableSchema;
     private readonly TypeMapper _typeMapper;
     private readonly HashSet<string> _jsonbColumns;
+    private readonly HashSet<string> _trimColumns;
 
-    public RecordMapper(TableSchema tableSchema, TypeMapper typeMapper)
+    public RecordMapper(TableSchema tableSchema, TypeMapper typeMapper, IConfiguration? configuration = null)
     {
         _tableSchema = tableSchema;
         _typeMapper = typeMapper;
 
         // Pre-compute which columns are JSONB type
-        _jsonbColumns = new HashSet<string>();
+        _jsonbColumns = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var field in tableSchema.Fields)
         {
             var pgType = typeMapper.MapFieldType(field, tableSchema.Name);
@@ -23,6 +25,18 @@ public class RecordMapper
             {
                 var columnName = SchemaGenerator.SanitizeColumnName(field.Name);
                 _jsonbColumns.Add(columnName);
+            }
+        }
+
+        // Load trim fields from config: Schema:TrimFields:<TABLENAME>
+        _trimColumns = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        if (configuration != null)
+        {
+            var trimSection = configuration.GetSection($"Schema:TrimFields:{tableSchema.Name}");
+            foreach (var entry in trimSection.GetChildren())
+            {
+                if (entry.Value != null)
+                    _trimColumns.Add(SchemaGenerator.SanitizeColumnName(entry.Value));
             }
         }
     }
@@ -89,7 +103,11 @@ public class RecordMapper
                     // Extract first (and expected only) value from array
                     return array[0].ToString();
                 }
-                return rawValue.ToString();
+                var strValue = rawValue.ToString();
+                var columnName = SchemaGenerator.SanitizeColumnName(field.Name);
+                if (_trimColumns.Contains(columnName))
+                    strValue = strValue.Trim();
+                return strValue;
             }
 
             // Handle INTEGER
