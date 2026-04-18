@@ -1,5 +1,5 @@
 AIRTABLE SCHEMA EXPORT
-Generated: 2026-03-01 17:06:54
+Generated: 2026-04-04 13:21:50
 ================================================================================
 
 TABLE: ARTWORK
@@ -32,10 +32,6 @@ ID: tblZEmzVq0oW8hfRk
     Type: date
     Options: {"dateFormat":{"name":"local","format":"l"}}
 
-  Field: PAPER_INVENTORY
-    ID: fld0JanS8e2kkjrOY
-    Type: singleLineText
-
   Field: TYPE_ID
     ID: fldIKlUaTxyhJxkcO
     Type: multipleRecordLinks
@@ -57,19 +53,9 @@ ID: tblZEmzVq0oW8hfRk
     ID: fldPqHeY5M9J5yIF0
     Type: multilineText
 
-  Field: LOCATION
-    ID: fldUqvLDaFz72OVOg
-    Type: singleSelect
-    Options: {"choices":[{"id":"selY2d67zF3SKFp1C","name":"New York apartment","color":"blueLight2"},{"id":"selHShbJt180YEhQi","name":"Pine Bush","color":"cyanLight2"},{"id":"seldnockSd4xYCalc","name":"Paris apartment","color":"tealLight2"},{"id":"selwBIRFUDUuciDKC","name":"Lelia Mordoch Gallery","color":"greenLight2"},{"id":"sel4iQWjLEIfI759M","name":"New York Basement","color":"pinkLight2"},{"id":"seloB0j286gaM7GNc","name":"Pinebush","color":"tealDark1"},{"id":"selbRkxaVWYkxIiQm","name":"Sold, Lyle and Maya Light","color":"blueBright"},{"id":"sel3xNriElBhAe0Qb","name":"Sold","color":"greenDark1"}]}
-
   Field: NOTES
     ID: fldZNW0IK22vFszKN
     Type: multilineText
-
-  Field: SOLD
-    ID: fldGoARfBHQK0f9Nv
-    Type: multipleRecordLinks
-    Options: {"linkedTableId":"tbljsA9aYToeUPcpD","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldYHwPtmT7WUeBz1"}
 
   Field: TYPE_NUMBER
     ID: fldWGxk2OrYSAwQni
@@ -80,6 +66,33 @@ ID: tblZEmzVq0oW8hfRk
     ID: fld6S8jKsfgylZnRG
     Type: formula
     Options: {"isValid":true,"formula":"CONCATENATE(\"KL_\", YEAR({fldKHdHV2wA6ttQT3}), \"_\", {fld6CfpiWoRXr21Qy}, \"_\", RIGHT('0000'&{fldWGxk2OrYSAwQni},4))","referencedFieldIds":["fldKHdHV2wA6ttQT3","fld6CfpiWoRXr21Qy","fldWGxk2OrYSAwQni"],"result":{"type":"singleLineText"}}
+
+  Field: PAPER_INVENTORY
+    ID: fld0JanS8e2kkjrOY
+    Type: singleLineText
+
+  Field: EXHIBITION
+    ID: fldwkQk8Sc3lmqBOc
+    Type: multilineText
+
+  Field: CONDITION
+    ID: fldMK6OAEvZk78Rcn
+    Type: multilineText
+
+  Field: LOCATION
+    ID: fldUqvLDaFz72OVOg
+    Type: singleSelect
+    Options: {"choices":[{"id":"selY2d67zF3SKFp1C","name":"New York studio","color":"blueLight2"},{"id":"selHShbJt180YEhQi","name":"Pine Bush","color":"cyanLight2"},{"id":"seldnockSd4xYCalc","name":"Paris studio","color":"tealLight2"},{"id":"selwBIRFUDUuciDKC","name":"Lelia Mordoch Gallery","color":"greenLight2"},{"id":"sel4iQWjLEIfI759M","name":"New York Basement","color":"pinkLight2"},{"id":"seloB0j286gaM7GNc","name":"Pinebush","color":"tealDark1"},{"id":"selbRkxaVWYkxIiQm","name":"Sold, Lyle and Maya Light","color":"blueBright"},{"id":"sel3xNriElBhAe0Qb","name":"Sold","color":"greenDark1"},{"id":"selOlJpK8QXeYq1Yc","name":"il","color":"tealBright"}]}
+
+  Field: REC_CREATE_DT
+    ID: fldCDuYH7rBebgsww
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: SOLD
+    ID: fldGoARfBHQK0f9Nv
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tbljsA9aYToeUPcpD","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldYHwPtmT7WUeBz1"}
 
   Field: PHOTO_ID
     ID: fldIeHyxxIYYr5Y7i
@@ -92,18 +105,10 @@ ID: tblZEmzVq0oW8hfRk
     Description: ID of ARTWORK_IMAGE table
     Options: {"linkedTableId":"tblT66JCQVbp0NvL3","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldlXh72LUqW6Ijyw"}
 
-  Field: EXHIBITION
-    ID: fldwkQk8Sc3lmqBOc
-    Type: multilineText
-
-  Field: CONDITION
-    ID: fldMK6OAEvZk78Rcn
-    Type: multilineText
-
-  Field: REC_CREATE_DT
-    ID: fldCDuYH7rBebgsww
-    Type: createdTime
-    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+  Field: VerifiedWithOriginal
+    ID: fldxw9RnVKrkOMH6R
+    Type: checkbox
+    Options: {"icon":"check","color":"greenBright"}
 
 
 TABLE: ARTWORK_IMAGE
@@ -209,6 +214,11 @@ ID: tblp53BYcUmGcZhh4
     Type: multipleRecordLinks
     Options: {"linkedTableId":"tbljsA9aYToeUPcpD","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldDDxWjt4DtgXiFG"}
 
+  Field: REC_CREATE_DT
+    ID: fldSSGGpE4blL5m04
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
 
 TABLE: ARCHIVE_IMAGE
 ID: tbl7tfcwBa4CB5OJR
@@ -243,6 +253,11 @@ ID: tbl7tfcwBa4CB5OJR
     ID: fldrVhUG6redSuNit
     Type: multipleRecordLinks
     Options: {"linkedTableId":"tblp53BYcUmGcZhh4","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldQuMBSw9Fwjjjg5"}
+
+  Field: REC_CREATE_DT
+    ID: fldEWkOPbryyLaSLT
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
 
   Field: NOTES
     ID: fld0CEyQv7Iv70ZUH
@@ -324,6 +339,11 @@ ID: tbl6SbZP4HV0yvHoQ
     ID: fldYsUBvmXXz4xRU8
     Type: multilineText
 
+  Field: ARTWORK
+    ID: fldPpj8HTVegecKgR
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldIKlUaTxyhJxkcO"}
+
 
 TABLE: PHOTO
 ID: tblnSxzHB5dXk0DiL
@@ -382,6 +402,11 @@ ID: tblnSxzHB5dXk0DiL
     ID: fldNMBKQ4p3Z097SE
     Type: multilineText
 
+  Field: REC_CREATE_DT
+    ID: fldeBey9fbPQ7AeAm
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
 
 TABLE: PHOTO_CATAGORY
 ID: tbl9G35eH4sY4hhVq
@@ -438,24 +463,9 @@ ID: tbl9ZwP77UK2VsjgE
     Type: number
     Options: {"precision":0}
 
-  Field: ARTWORK_ID
-    ID: fldSL78lnpDaFfB5e
-    Type: multipleRecordLinks
-    Description: If associated with an artwork
-    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":true,"inverseLinkFieldId":"fldr3yaeuAPveZIcZ"}
-
   Field: FILENAME
     ID: fldH0qNze6kR9MyPP
     Type: singleLineText
-
-  Field: SKETCH_CREATE_DT
-    ID: fldb5Mh4ilEhrQ6uK
-    Type: date
-    Options: {"dateFormat":{"name":"local","format":"l"}}
-
-  Field: PUB_NOTES
-    ID: fldI0ZX3kIWsb4oGk
-    Type: multilineText
 
   Field: ARCHIVE_NOTES
     ID: fldfEPSLEentsOphz
@@ -464,5 +474,21 @@ ID: tbl9ZwP77UK2VsjgE
   Field: HIDE
     ID: fldqCqaLJ5iEHa0M0
     Type: checkbox
+    Options: {"icon":"check","color":"greenBright"}
+
+  Field: REC_CREATE_DT
+    ID: fldVcl1XcY5wAh8EB
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: ARTWORK_ID
+    ID: fldSL78lnpDaFfB5e
+    Type: multipleRecordLinks
+    Description: If associated with an artwork
+    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":true,"inverseLinkFieldId":"fldr3yaeuAPveZIcZ"}
+
+  Field: PUB_NOTES
+    ID: fldI0ZX3kIWsb4oGk
+    Type: multilineText
 
 
