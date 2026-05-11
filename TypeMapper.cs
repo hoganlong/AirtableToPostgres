@@ -20,6 +20,7 @@ public class TypeMapper
             { "number", "NUMERIC" },
             { "currency", "NUMERIC(19,4)" },
             { "date", "DATE" },
+            { "dateTime", "TIMESTAMP WITH TIME ZONE" },
             { "createdTime", "TIMESTAMP WITH TIME ZONE" },
             { "singleSelect", "TEXT" },
             { "url", "TEXT" },
