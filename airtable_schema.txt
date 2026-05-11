@@ -1,5 +1,5 @@
 AIRTABLE SCHEMA EXPORT
-Generated: 2026-04-04 13:21:50
+Generated: 2026-05-11 01:35:40
 ================================================================================
 
 TABLE: ARTWORK
@@ -32,6 +32,10 @@ ID: tblZEmzVq0oW8hfRk
     Type: date
     Options: {"dateFormat":{"name":"local","format":"l"}}
 
+  Field: PAPER_INVENTORY
+    ID: fld0JanS8e2kkjrOY
+    Type: singleLineText
+
   Field: TYPE_ID
     ID: fldIKlUaTxyhJxkcO
     Type: multipleRecordLinks
@@ -45,18 +49,6 @@ ID: tblZEmzVq0oW8hfRk
     ID: fld7EgZoJ2IRADimt
     Type: singleLineText
 
-  Field: FOLDED_DIMENSIONS
-    ID: fld8pjPyOxawoqUO2
-    Type: multilineText
-
-  Field: INSTALL
-    ID: fldPqHeY5M9J5yIF0
-    Type: multilineText
-
-  Field: NOTES
-    ID: fldZNW0IK22vFszKN
-    Type: multilineText
-
   Field: TYPE_NUMBER
     ID: fldWGxk2OrYSAwQni
     Type: number
@@ -67,9 +59,24 @@ ID: tblZEmzVq0oW8hfRk
     Type: formula
     Options: {"isValid":true,"formula":"CONCATENATE(\"KL_\", YEAR({fldKHdHV2wA6ttQT3}), \"_\", {fld6CfpiWoRXr21Qy}, \"_\", RIGHT('0000'&{fldWGxk2OrYSAwQni},4))","referencedFieldIds":["fldKHdHV2wA6ttQT3","fld6CfpiWoRXr21Qy","fldWGxk2OrYSAwQni"],"result":{"type":"singleLineText"}}
 
-  Field: PAPER_INVENTORY
-    ID: fld0JanS8e2kkjrOY
-    Type: singleLineText
+  Field: ARCHIVE_NOTES
+    ID: fldQ1Yi9PRId5HgYU
+    Type: multilineText
+    Description: Notes that are only visible internally.
+
+  Field: Unsigned
+    ID: fldy1U3xcFRgDOsha
+    Type: checkbox
+    Description: Indicates the artwork is unsigned
+    Options: {"icon":"check","color":"greenBright"}
+
+  Field: FOLDED_DIMENSIONS
+    ID: fld8pjPyOxawoqUO2
+    Type: multilineText
+
+  Field: INSTALL
+    ID: fldPqHeY5M9J5yIF0
+    Type: multilineText
 
   Field: EXHIBITION
     ID: fldwkQk8Sc3lmqBOc
@@ -83,6 +90,10 @@ ID: tblZEmzVq0oW8hfRk
     ID: fldUqvLDaFz72OVOg
     Type: singleSelect
     Options: {"choices":[{"id":"selY2d67zF3SKFp1C","name":"New York studio","color":"blueLight2"},{"id":"selHShbJt180YEhQi","name":"Pine Bush","color":"cyanLight2"},{"id":"seldnockSd4xYCalc","name":"Paris studio","color":"tealLight2"},{"id":"selwBIRFUDUuciDKC","name":"Lelia Mordoch Gallery","color":"greenLight2"},{"id":"sel4iQWjLEIfI759M","name":"New York Basement","color":"pinkLight2"},{"id":"seloB0j286gaM7GNc","name":"Pinebush","color":"tealDark1"},{"id":"selbRkxaVWYkxIiQm","name":"Sold, Lyle and Maya Light","color":"blueBright"},{"id":"sel3xNriElBhAe0Qb","name":"Sold","color":"greenDark1"},{"id":"selOlJpK8QXeYq1Yc","name":"il","color":"tealBright"}]}
+
+  Field: NOTES
+    ID: fldZNW0IK22vFszKN
+    Type: multilineText
 
   Field: REC_CREATE_DT
     ID: fldCDuYH7rBebgsww
@@ -437,22 +448,6 @@ ID: tbl9ZwP77UK2VsjgE
     Type: date
     Options: {"dateFormat":{"name":"local","format":"l"}}
 
-  Field: DESCRIPTION
-    ID: fld0z1W1ZGpIml2GG
-    Type: multilineText
-
-  Field: SKETCH_LOC
-    ID: fldsZxQX0qFb4GUGl
-    Type: singleLineText
-
-  Field: SKETCH_PEOPLE
-    ID: fldLtpJDAJ98vRTb7
-    Type: singleLineText
-
-  Field: SKETCH_MEDIUM
-    ID: fldHxCA0RmNqQYAL5
-    Type: singleLineText
-
   Field: SKETCHBOOK_NUMBER
     ID: fldunUKbWZdaUpqLF
     Type: number
@@ -481,6 +476,22 @@ ID: tbl9ZwP77UK2VsjgE
     Type: createdTime
     Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
 
+  Field: DESCRIPTION
+    ID: fld0z1W1ZGpIml2GG
+    Type: multilineText
+
+  Field: SKETCH_LOC
+    ID: fldsZxQX0qFb4GUGl
+    Type: singleLineText
+
+  Field: SKETCH_PEOPLE
+    ID: fldLtpJDAJ98vRTb7
+    Type: singleLineText
+
+  Field: SKETCH_MEDIUM
+    ID: fldHxCA0RmNqQYAL5
+    Type: singleLineText
+
   Field: ARTWORK_ID
     ID: fldSL78lnpDaFfB5e
     Type: multipleRecordLinks
@@ -490,5 +501,57 @@ ID: tbl9ZwP77UK2VsjgE
   Field: PUB_NOTES
     ID: fldI0ZX3kIWsb4oGk
     Type: multilineText
+
+
+TABLE: SHOW
+ID: tblVwJbmsp00r2nPR
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fldYzPf7V8KZQDGea
+    Type: autoNumber
+
+  Field: SHOW_NAME
+    ID: fld5bPZKSn4IaxmuF
+    Type: singleLineText
+
+  Field: GALLERY
+    ID: fldKZmXoyQJxaEYyi
+    Type: singleLineText
+
+  Field: ADDRESS
+    ID: fldoKxVdsEhgK2ZqX
+    Type: multilineText
+
+  Field: SHOW_START_DT
+    ID: fldqA9qGhEgNu1drd
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: SHOW_END_DT
+    ID: fldjRsNETv8TBp95j
+    Type: date
+    Options: {"dateFormat":{"name":"local","format":"l"}}
+
+  Field: SHOW_TYPE
+    ID: fldGqIKJATnxQ8it3
+    Type: singleSelect
+    Options: {"choices":[{"id":"selvziN6l1G4w9qPY","name":"SOLO","color":"blueLight2"},{"id":"sel9nUhGYY7dbSwgf","name":"2PERSON","color":"cyanLight2"},{"id":"seloA9mHmEZvoJFwd","name":"GROUP","color":"tealLight2"}]}
+
+  Field: RECEPTION
+    ID: fldZ2mpJP4i4UcAzI
+    Type: multilineText
+
+  Field: CURATED_BY
+    ID: fldpYtIGfvLPLj3d9
+    Type: singleLineText
+
+  Field: SPONSORED_BY
+    ID: fldzcxrhod6hWxedv
+    Type: singleLineText
+
+  Field: REC_CREATE_DT
+    ID: fld6kZlYrPegO27QD
+    Type: dateTime
+    Options: {"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}
 
 
