@@ -93,7 +93,10 @@ dotnet run -- showall               # Show all insights
 dotnet run -- test                  # Test database connection
 dotnet run -- deleted               # Check all tables for records deleted in Airtable
 dotnet run -- deleted ARTWORK       # Check a single table for deleted records
+dotnet run -- --help                # Print all commands and options (also: -h, -?, /?, ?)
 ```
+
+Unknown flags (any unrecognized token starting with `-` or `/`) exit with code 1 after printing usage.
 
 ### Deleted Records Check
 

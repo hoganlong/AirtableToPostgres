@@ -8,8 +8,56 @@ using Amazon.SecretsManager.Model;
 
 class Program
 {
+    static void PrintUsage()
+    {
+        Console.WriteLine("Usage: dotnet run [-- <command> [args...]]");
+        Console.WriteLine();
+        Console.WriteLine("With no command, runs an incremental sync of every table in the schema");
+        Console.WriteLine("file (or only Airtable:TableName when Schema:SyncAllTables is false).");
+        Console.WriteLine();
+        Console.WriteLine("Commands:");
+        Console.WriteLine("  sync <TABLE>            sync a single table (incremental)");
+        Console.WriteLine("  sync <TABLE> full       sync a single table, forcing a full pull");
+        Console.WriteLine("  full                    force a full pull for every table");
+        Console.WriteLine("  query                   interactive SQL query menu against the database");
+        Console.WriteLine("  deleted [<TABLE>]       report DB rows that no longer exist in Airtable");
+        Console.WriteLine("                          (omit <TABLE> to check every table)");
+        Console.WriteLine("  test                    run the QuickTest diagnostic and exit");
+        Console.WriteLine("  insights                print insight queries against the database");
+        Console.WriteLine("  showall                 run every saved query and print results");
+        Console.WriteLine("  diagnostic <FIELD>      run DiagnosticFetch for a single field/record id");
+        Console.WriteLine();
+        Console.WriteLine("Options:");
+        Console.WriteLine("  -h, --help, -?, /?, ?   show this help and exit");
+        Console.WriteLine();
+        Console.WriteLine("Available tables: ARTWORK, ARTWORK_IMAGE, PHOTO, SOLD, ARCHIVE,");
+        Console.WriteLine("                  ARCHIVE_IMAGE, ARTWORK_TYPE, PHOTO_CATAGORY, SKETCH");
+        Console.WriteLine();
+        Console.WriteLine("Configuration (appsettings.json):");
+        Console.WriteLine("  Airtable:ApiKey/BaseId/TableName");
+        Console.WriteLine("  PostgreSQL:Host/Database/Port/SecretArn");
+        Console.WriteLine("  Schema:UseCustomSchema/SyncAllTables/SchemaFilePath");
+    }
+
     static async Task Main(string[] args)
     {
+        if (args.Any(a => a is "-h" or "--help" or "-?" or "/?" or "?"))
+        {
+            PrintUsage();
+            return;
+        }
+        foreach (var a in args)
+        {
+            if (a.StartsWith("-") || a.StartsWith("/"))
+            {
+                Console.WriteLine($"Unknown option: {a}");
+                Console.WriteLine();
+                PrintUsage();
+                Environment.ExitCode = 1;
+                return;
+            }
+        }
+
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
