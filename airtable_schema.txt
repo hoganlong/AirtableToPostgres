@@ -1,5 +1,5 @@
 AIRTABLE SCHEMA EXPORT
-Generated: 2026-05-11 01:35:40
+Generated: 2026-06-04 22:04:39
 ================================================================================
 
 TABLE: ARTWORK
@@ -49,6 +49,19 @@ ID: tblZEmzVq0oW8hfRk
     ID: fld7EgZoJ2IRADimt
     Type: singleLineText
 
+  Field: FOLDED_DIMENSIONS
+    ID: fld8pjPyOxawoqUO2
+    Type: multilineText
+
+  Field: LOCATION
+    ID: fldUqvLDaFz72OVOg
+    Type: singleSelect
+    Options: {"choices":[{"id":"selY2d67zF3SKFp1C","name":"New York studio","color":"blueLight2"},{"id":"selHShbJt180YEhQi","name":"Pine Bush","color":"cyanLight2"},{"id":"seldnockSd4xYCalc","name":"Paris studio","color":"tealLight2"},{"id":"selwBIRFUDUuciDKC","name":"Lelia Mordoch Gallery","color":"greenLight2"},{"id":"sel4iQWjLEIfI759M","name":"New York Basement","color":"pinkLight2"},{"id":"seloB0j286gaM7GNc","name":"Pinebush","color":"tealDark1"},{"id":"sel3xNriElBhAe0Qb","name":"Sold","color":"greenDark1"},{"id":"seluyDhOJO6tWGfWM","name":"Unknown","color":"redBright"}]}
+
+  Field: NOTES
+    ID: fldZNW0IK22vFszKN
+    Type: multilineText
+
   Field: TYPE_NUMBER
     ID: fldWGxk2OrYSAwQni
     Type: number
@@ -70,9 +83,9 @@ ID: tblZEmzVq0oW8hfRk
     Description: Indicates the artwork is unsigned
     Options: {"icon":"check","color":"greenBright"}
 
-  Field: FOLDED_DIMENSIONS
-    ID: fld8pjPyOxawoqUO2
-    Type: multilineText
+  Field: REC_CREATE_BY
+    ID: fldfL8sMkBtdAJkNS
+    Type: createdBy
 
   Field: INSTALL
     ID: fldPqHeY5M9J5yIF0
@@ -84,15 +97,6 @@ ID: tblZEmzVq0oW8hfRk
 
   Field: CONDITION
     ID: fldMK6OAEvZk78Rcn
-    Type: multilineText
-
-  Field: LOCATION
-    ID: fldUqvLDaFz72OVOg
-    Type: singleSelect
-    Options: {"choices":[{"id":"selY2d67zF3SKFp1C","name":"New York studio","color":"blueLight2"},{"id":"selHShbJt180YEhQi","name":"Pine Bush","color":"cyanLight2"},{"id":"seldnockSd4xYCalc","name":"Paris studio","color":"tealLight2"},{"id":"selwBIRFUDUuciDKC","name":"Lelia Mordoch Gallery","color":"greenLight2"},{"id":"sel4iQWjLEIfI759M","name":"New York Basement","color":"pinkLight2"},{"id":"seloB0j286gaM7GNc","name":"Pinebush","color":"tealDark1"},{"id":"selbRkxaVWYkxIiQm","name":"Sold, Lyle and Maya Light","color":"blueBright"},{"id":"sel3xNriElBhAe0Qb","name":"Sold","color":"greenDark1"},{"id":"selOlJpK8QXeYq1Yc","name":"il","color":"tealBright"}]}
-
-  Field: NOTES
-    ID: fldZNW0IK22vFszKN
     Type: multilineText
 
   Field: REC_CREATE_DT
@@ -165,6 +169,10 @@ ID: tblT66JCQVbp0NvL3
     Type: createdTime
     Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
 
+  Field: REC_CREATE_BY
+    ID: fldVO6PrKL39khkva
+    Type: createdBy
+
 
 TABLE: ARCHIVE
 ID: tblp53BYcUmGcZhh4
@@ -230,6 +238,10 @@ ID: tblp53BYcUmGcZhh4
     Type: createdTime
     Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
 
+  Field: REC_CREATE_BY
+    ID: fld385OQPbczxelD5
+    Type: createdBy
+
 
 TABLE: ARCHIVE_IMAGE
 ID: tbl7tfcwBa4CB5OJR
@@ -269,6 +281,10 @@ ID: tbl7tfcwBa4CB5OJR
     ID: fldEWkOPbryyLaSLT
     Type: createdTime
     Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: REC_CREATE_BY
+    ID: fldKV6AJvBZp2gxSy
+    Type: createdBy
 
   Field: NOTES
     ID: fld0CEyQv7Iv70ZUH
@@ -338,6 +354,10 @@ ID: tbljsA9aYToeUPcpD
     Type: multipleLookupValues
     Options: {"isValid":true,"recordLinkFieldId":"fldYHwPtmT7WUeBz1","fieldIdInLinkedTable":"fldvn64a2mRnVnWtj","result":{"type":"number","options":{"precision":0}}}
 
+  Field: REC_CREATE_BY
+    ID: fldFa4CY60sxdR75e
+    Type: createdBy
+
 
 TABLE: ARTWORK_TYPE
 ID: tbl6SbZP4HV0yvHoQ
@@ -354,6 +374,15 @@ ID: tbl6SbZP4HV0yvHoQ
     ID: fldPpj8HTVegecKgR
     Type: multipleRecordLinks
     Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldIKlUaTxyhJxkcO"}
+
+  Field: REC_CREATE_DT
+    ID: fldVvkLEJJpuagfBN
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: REC_CREATE_BY
+    ID: flditgEG8D6wasv84
+    Type: createdBy
 
 
 TABLE: PHOTO
@@ -418,6 +447,10 @@ ID: tblnSxzHB5dXk0DiL
     Type: createdTime
     Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
 
+  Field: REC_CREATE_BY
+    ID: fldT5nz7AenSCqv0M
+    Type: createdBy
+
 
 TABLE: PHOTO_CATAGORY
 ID: tbl9G35eH4sY4hhVq
@@ -434,6 +467,15 @@ ID: tbl9G35eH4sY4hhVq
     ID: fldRnIxDVa1VQd9rY
     Type: multipleRecordLinks
     Options: {"linkedTableId":"tblnSxzHB5dXk0DiL","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fld0pb7RU4fzmcl05"}
+
+  Field: REC_CREATE_BY
+    ID: fldIwbHV3NpkXhDWj
+    Type: createdBy
+
+  Field: REC_CREATE_DT
+    ID: fldbeAt0FA3PKDKZY
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
 
 
 TABLE: SKETCH
@@ -471,10 +513,19 @@ ID: tbl9ZwP77UK2VsjgE
     Type: checkbox
     Options: {"icon":"check","color":"greenBright"}
 
+  Field: deletefile
+    ID: fldvPvJmVsIKL2WbX
+    Type: checkbox
+    Options: {"icon":"check","color":"greenBright"}
+
   Field: REC_CREATE_DT
     ID: fldVcl1XcY5wAh8EB
     Type: createdTime
     Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: REC_CREATE_BY
+    ID: fldQQEyICpvJxZ7S8
+    Type: createdBy
 
   Field: DESCRIPTION
     ID: fld0z1W1ZGpIml2GG
@@ -522,6 +573,12 @@ ID: tblVwJbmsp00r2nPR
     ID: fldoKxVdsEhgK2ZqX
     Type: multilineText
 
+  Field: YEAR
+    ID: fldD91yPzvKLQA2w1
+    Type: number
+    Description: The year of the show if dates are not known.
+    Options: {"precision":0}
+
   Field: SHOW_START_DT
     ID: fldqA9qGhEgNu1drd
     Type: date
@@ -549,9 +606,133 @@ ID: tblVwJbmsp00r2nPR
     ID: fldzcxrhod6hWxedv
     Type: singleLineText
 
+  Field: VALIDATED
+    ID: fldYQkwbwR1J8JA59
+    Type: checkbox
+    Options: {"icon":"check","color":"greenBright"}
+
   Field: REC_CREATE_DT
     ID: fld6kZlYrPegO27QD
-    Type: dateTime
-    Options: {"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: REC_CREATE_BY
+    ID: fldvMXiaCPah1NFvZ
+    Type: createdBy
+
+
+TABLE: ARTLIST
+ID: tblC4oaVVLnXTqw8y
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fld3vy5IR2o6KygX5
+    Type: autoNumber
+
+  Field: SHOW_ID
+    ID: flde43vXlqqnlUFcC
+    Type: number
+    Description: If show list ID of show table.
+    Options: {"precision":0}
+
+  Field: NOTES
+    ID: fldUPkUWxK3YTcJie
+    Type: multilineText
+    Description: Description shown on site
+
+
+  Field: DESCRIPTION
+    ID: fldEXPKtiWgmyKX5f
+    Type: singleLineText
+    Description: Internal short description
+
+  Field: ARCHIVE_NOTES
+    ID: fldZuHAdj7IwPk908
+    Type: multilineText
+    Description: This is only visible internally
+
+  Field: INTERNAL
+    ID: fldiACBZBu2OoBcUL
+    Type: checkbox
+    Description: If true this list is only used internally
+    Options: {"icon":"check","color":"greenBright"}
+
+  Field: REC_CREATE_DT
+    ID: fldciMcwY20DuiBmt
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: REC_CREATE_BY
+    ID: fldrHs6h5UXVv2d9B
+    Type: createdBy
+
+
+TABLE: ARTLIST_ITEM
+ID: tblMnSHni1cc6L2RK
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fldJyvPzoq5FvWvoW
+    Type: autoNumber
+
+  Field: SEQUENCE
+    ID: fldqLM0Em3nyIxBPj
+    Type: number
+    Options: {"precision":0}
+
+  Field: ARTLIST_ID
+    ID: fldsQkbvgZBmFHCp7
+    Type: number
+    Description: The artlist this item is part of
+    Options: {"precision":0}
+
+  Field: ARTWORK_ID
+    ID: fldohWPpryxZlyJ3T
+    Type: number
+    Description: If non-null use the filename located in the artwork
+    Options: {"precision":0}
+
+  Field: ARTWORK_IMAGE_ID
+    ID: fld2kqcBG2WoddHZO
+    Type: number
+    Description: If non-null use the image from the ARTWORK_IMAGE table
+    Options: {"precision":1}
+
+  Field: PHOTO_ID
+    ID: fldjfK3XmxFSMPnOJ
+    Type: number
+    Options: {"precision":0}
+
+  Field: URL
+    ID: fldJk9UDfwj9Jdbgl
+    Type: singleLineText
+
+  Field: ITEM_TYPE
+    ID: fldP4WWyY4ZlwqFYJ
+    Type: singleSelect
+    Options: {"choices":[{"id":"seldcFlQAhDddn4WR","name":"SEQ_ITEM","color":"greenLight2"},{"id":"selyx5ZupTqJ03BeW","name":"SHOW_INVITE_FRONT","color":"cyanLight2"},{"id":"selQySqjZEhylLrdI","name":"SHOW_INVITE_BACK","color":"blueLight2"},{"id":"selOX46UwYD7rk3Kl","name":"ART_IN_SHOW","color":"tealLight2"},{"id":"selnwZR6XDEywesaL","name":"SHOW_INSTALLATION","color":"yellowLight2"},{"id":"selD1TyCsddN7PQcT","name":"SHOW_OPENING","color":"orangeLight2"},{"id":"selzV0QBbxjNsOcSa","name":"SHOW_RECEPTION","color":"redLight2"},{"id":"sel4VXxVJRFYBY5s7","name":"SHOW_LAYOUT","color":"pinkLight2"}]}
+
+  Field: DESCRIPTION
+    ID: fldBKsikD5IS1KkXp
+    Type: singleLineText
+    Description: Description if needed
+
+  Field: NOTES
+    ID: fldP8Ax1g7jLjvbr4
+    Type: multilineText
+    Description: Description shown on site
+
+
+  Field: ARCHIVE_NOTES
+    ID: fldpNTGJPYN8U2Jfm
+    Type: multilineText
+    Description: Non-public notes if needed
+
+  Field: REC_CREATE_DT
+    ID: fldHsq2XZVTLwgFMk
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: REC_CREATE_BY
+    ID: fld8IpfBlbDRJBMer
+    Type: createdBy
 
 

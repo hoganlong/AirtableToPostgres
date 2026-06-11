@@ -8,6 +8,38 @@ using Amazon.SecretsManager.Model;
 
 class Program
 {
+    // Reads appsettings.json + the schema file and returns the table names in
+    // schema order. Returns null on any failure so callers can fall back to a
+    // generic message rather than a hardcoded list that goes stale.
+    static List<string>? TryLoadTableNames()
+    {
+        try
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true)
+                .Build();
+            var schemaPath = config["Schema:SchemaFilePath"] ?? "airtable_schema.txt";
+            var schema = new SchemaParser().Parse(schemaPath);
+            return schema.Tables.Select(t => t.Name).ToList();
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    static void PrintAvailableTables(string indent = "")
+    {
+        var names = TryLoadTableNames();
+        if (names is null || names.Count == 0)
+        {
+            Console.WriteLine($"{indent}Available tables: (could not read schema file)");
+            return;
+        }
+        Console.WriteLine($"{indent}Available tables: {string.Join(", ", names)}");
+    }
+
     static void PrintUsage()
     {
         Console.WriteLine("Usage: dotnet run [-- <command> [args...]]");
@@ -30,8 +62,7 @@ class Program
         Console.WriteLine("Options:");
         Console.WriteLine("  -h, --help, -?, /?, ?   show this help and exit");
         Console.WriteLine();
-        Console.WriteLine("Available tables: ARTWORK, ARTWORK_IMAGE, PHOTO, SOLD, ARCHIVE,");
-        Console.WriteLine("                  ARCHIVE_IMAGE, ARTWORK_TYPE, PHOTO_CATAGORY, SKETCH");
+        PrintAvailableTables();
         Console.WriteLine();
         Console.WriteLine("Configuration (appsettings.json):");
         Console.WriteLine("  Airtable:ApiKey/BaseId/TableName");
@@ -85,6 +116,9 @@ class Program
 
         var postgresConnectionString = $"Host={host};Port={port};Database={database};Username={dbCredentials.username};Password={dbCredentials.password};SSL Mode=Require;Trust Server Certificate=true";
         Console.WriteLine("✓ Database credentials retrieved successfully\n");
+
+        if (!await EnsureDatabaseReachable(postgresConnectionString))
+            return;
 
         // Check if running in query mode
         if (args.Length > 0 && args[0] == "query")
@@ -157,7 +191,7 @@ class Program
             if (args.Length < 2)
             {
                 Console.WriteLine("Usage: dotnet run -- sync <TABLENAME> [full]");
-                Console.WriteLine("Available tables: ARTWORK, ARTWORK_IMAGE, PHOTO, SOLD, ARCHIVE, ARCHIVE_IMAGE, ARTWORK_TYPE, PHOTO_CATAGORY");
+                PrintAvailableTables();
                 Console.WriteLine("Add 'full' to bypass incremental sync and fetch all records.");
                 return;
             }
@@ -411,7 +445,53 @@ class Program
         Console.WriteLine($"  ✓ UNCHANGED: {statistics.UnchangedRecords}");
         Console.WriteLine($"  Duration: {statistics.Duration.TotalSeconds:F2}s");
 
+        // Drift check: Airtable's filterByFormula has a known indexing lag, so
+        // an incremental sync can silently miss records right after a bulk
+        // import. Count Airtable records (unfiltered) and warn if Postgres is
+        // behind. We never delete from Postgres, so Postgres count >= Airtable
+        // count is expected; only the reverse means we actually missed rows.
+        var airtableCount = await CountAirtableRecords(apiKey, baseId, tableSchema.Name);
+        if (airtableCount > totalRecordsInDb)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"  *** SYNC FAILED ON TABLE {tableSchema.Name}, there is a known problem if a recent bulk load was made to that table ***");
+            Console.WriteLine($"      Airtable has {airtableCount} records, Postgres has {totalRecordsInDb} (missing {airtableCount - totalRecordsInDb}).");
+        }
+        else if (airtableCount < totalRecordsInDb)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"  Note tables are not synced {tableSchema.Name} extra records exist in target");
+            Console.WriteLine($"      Airtable has {airtableCount} records, Postgres has {totalRecordsInDb} (extra {totalRecordsInDb - airtableCount}).");
+        }
+
         return statistics;
+    }
+
+    // Drift detection: count records in Airtable without any filter. Used to
+    // verify the incremental sync didn't silently miss records (e.g., due to
+    // Airtable's filterByFormula index lag after a bulk import).
+    static async Task<int> CountAirtableRecords(string apiKey, string baseId, string tableName)
+    {
+        int count = 0;
+        string? offset = null;
+        using var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+        do
+        {
+            var url = $"https://api.airtable.com/v0/{baseId}/{Uri.EscapeDataString(tableName)}?pageSize=100";
+            if (!string.IsNullOrEmpty(offset))
+                url += $"&offset={offset}";
+
+            var response = await httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var json = JObject.Parse(await response.Content.ReadAsStringAsync());
+            if (json["records"] is JArray arr) count += arr.Count;
+            offset = json["offset"]?.ToString();
+        } while (!string.IsNullOrEmpty(offset));
+
+        return count;
     }
 
     static async Task<List<JObject>> FetchAirtableRecords(
@@ -654,6 +734,36 @@ class Program
         {
             Console.WriteLine($"✗ Error retrieving secret from AWS Secrets Manager: {ex.Message}");
             throw;
+        }
+    }
+
+    // Opens a probe connection to verify the database is reachable. If it fails
+    // (RDS instance paused/waking, transient network drop), prompts the user to
+    // retry. Once a probe succeeds, returns so the rest of the program can run
+    // with confidence that the DB is awake.
+    static async Task<bool> EnsureDatabaseReachable(string connectionString)
+    {
+        while (true)
+        {
+            try
+            {
+                await using var probe = new NpgsqlConnection(connectionString);
+                await probe.OpenAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"✗ Could not connect to PostgreSQL: {ex.Message}");
+                Console.WriteLine("  (The RDS instance may be paused — the failed attempt usually wakes it up.)");
+                Console.Write("Retry? (y/n): ");
+                var answer = Console.ReadLine()?.Trim().ToLowerInvariant();
+                if (answer != "y" && answer != "yes")
+                {
+                    Console.WriteLine("Aborted.");
+                    return false;
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
