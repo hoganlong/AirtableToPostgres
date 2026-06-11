@@ -22,6 +22,7 @@ public class TypeMapper
             { "date", "DATE" },
             { "dateTime", "TIMESTAMP WITH TIME ZONE" },
             { "createdTime", "TIMESTAMP WITH TIME ZONE" },
+            { "createdBy", "JSONB" },
             { "singleSelect", "TEXT" },
             { "url", "TEXT" },
             { "formula", "TEXT" },
