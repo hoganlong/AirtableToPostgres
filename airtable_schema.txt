@@ -1,5 +1,5 @@
 AIRTABLE SCHEMA EXPORT
-Generated: 2026-06-04 22:04:39
+Generated: 2026-07-01 13:43:56
 ================================================================================
 
 TABLE: ARTWORK
@@ -53,6 +53,10 @@ ID: tblZEmzVq0oW8hfRk
     ID: fld8pjPyOxawoqUO2
     Type: multilineText
 
+  Field: CONDITION
+    ID: fldMK6OAEvZk78Rcn
+    Type: multilineText
+
   Field: LOCATION
     ID: fldUqvLDaFz72OVOg
     Type: singleSelect
@@ -83,9 +87,19 @@ ID: tblZEmzVq0oW8hfRk
     Description: Indicates the artwork is unsigned
     Options: {"icon":"check","color":"greenBright"}
 
+  Field: REC_CREATE_DT
+    ID: fldCDuYH7rBebgsww
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
   Field: REC_CREATE_BY
     ID: fldfL8sMkBtdAJkNS
     Type: createdBy
+
+  Field: PRE-CAREER
+    ID: fldCoLz4i95IVcWfY
+    Type: checkbox
+    Options: {"icon":"check","color":"greenBright"}
 
   Field: INSTALL
     ID: fldPqHeY5M9J5yIF0
@@ -94,15 +108,6 @@ ID: tblZEmzVq0oW8hfRk
   Field: EXHIBITION
     ID: fldwkQk8Sc3lmqBOc
     Type: multilineText
-
-  Field: CONDITION
-    ID: fldMK6OAEvZk78Rcn
-    Type: multilineText
-
-  Field: REC_CREATE_DT
-    ID: fldCDuYH7rBebgsww
-    Type: createdTime
-    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
 
   Field: SOLD
     ID: fldGoARfBHQK0f9Nv
@@ -124,6 +129,15 @@ ID: tblZEmzVq0oW8hfRk
     ID: fldxw9RnVKrkOMH6R
     Type: checkbox
     Options: {"icon":"check","color":"greenBright"}
+
+  Field: REC_UPDATE_DT
+    ID: fldi8FE1kleNrNMXy
+    Type: lastModifiedTime
+    Options: {"isValid":true,"referencedFieldIds":[],"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: REC_UPDATE_BY
+    ID: fldz4dij7oFoTIvH0
+    Type: lastModifiedBy
 
 
 TABLE: ARTWORK_IMAGE
@@ -171,6 +185,32 @@ ID: tblT66JCQVbp0NvL3
 
   Field: REC_CREATE_BY
     ID: fldVO6PrKL39khkva
+    Type: createdBy
+
+
+TABLE: ARTWORK_TYPE
+ID: tbl6SbZP4HV0yvHoQ
+--------------------------------------------------------------------------------
+  Field: Code
+    ID: fldKd2l1cGcYv29yq
+    Type: singleLineText
+
+  Field: Description
+    ID: fldYsUBvmXXz4xRU8
+    Type: multilineText
+
+  Field: ARTWORK
+    ID: fldPpj8HTVegecKgR
+    Type: multipleRecordLinks
+    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldIKlUaTxyhJxkcO"}
+
+  Field: REC_CREATE_DT
+    ID: fldVvkLEJJpuagfBN
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: REC_CREATE_BY
+    ID: flditgEG8D6wasv84
     Type: createdBy
 
 
@@ -359,32 +399,6 @@ ID: tbljsA9aYToeUPcpD
     Type: createdBy
 
 
-TABLE: ARTWORK_TYPE
-ID: tbl6SbZP4HV0yvHoQ
---------------------------------------------------------------------------------
-  Field: Code
-    ID: fldKd2l1cGcYv29yq
-    Type: singleLineText
-
-  Field: Description
-    ID: fldYsUBvmXXz4xRU8
-    Type: multilineText
-
-  Field: ARTWORK
-    ID: fldPpj8HTVegecKgR
-    Type: multipleRecordLinks
-    Options: {"linkedTableId":"tblZEmzVq0oW8hfRk","isReversed":false,"prefersSingleRecordLink":false,"inverseLinkFieldId":"fldIKlUaTxyhJxkcO"}
-
-  Field: REC_CREATE_DT
-    ID: fldVvkLEJJpuagfBN
-    Type: createdTime
-    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
-
-  Field: REC_CREATE_BY
-    ID: flditgEG8D6wasv84
-    Type: createdBy
-
-
 TABLE: PHOTO
 ID: tblnSxzHB5dXk0DiL
 --------------------------------------------------------------------------------
@@ -450,6 +464,19 @@ ID: tblnSxzHB5dXk0DiL
   Field: REC_CREATE_BY
     ID: fldT5nz7AenSCqv0M
     Type: createdBy
+
+  Field: PRE-CAREER
+    ID: fldxaW4WaQPBesRuX
+    Type: checkbox
+    Options: {"icon":"check","color":"greenBright"}
+
+  Field: DIMENSION
+    ID: fldysjN2cCAg5tTwW
+    Type: singleLineText
+
+  Field: CONDITION
+    ID: fldJJO0vo3SQlK0b1
+    Type: multilineText
 
 
 TABLE: PHOTO_CATAGORY
@@ -734,5 +761,32 @@ ID: tblMnSHni1cc6L2RK
   Field: REC_CREATE_BY
     ID: fld8IpfBlbDRJBMer
     Type: createdBy
+
+
+TABLE: IMAGE
+ID: tblhbVGJONlKsZ0uh
+--------------------------------------------------------------------------------
+  Field: ID
+    ID: fldfQNkNZZ2rJ7pIC
+    Type: autoNumber
+
+  Field: ARCHIVE_NOTES
+    ID: fldJltEBSUhv0eSDQ
+    Type: multilineText
+    Description: Internal notes about this record
+
+  Field: REC_CREATE_BY
+    ID: fldsDl2Y4eF4IROEX
+    Type: createdBy
+
+  Field: REC_CREATE_DT
+    ID: fldkUfPzjXpB2IApA
+    Type: createdTime
+    Options: {"result":{"type":"dateTime","options":{"dateFormat":{"name":"local","format":"l"},"timeFormat":{"name":"12hour","format":"h:mma"},"timeZone":"client"}}}
+
+  Field: NOTES
+    ID: fldjG6lYQcVLzzPmX
+    Type: multilineText
+    Description: Public displayed notes about this record
 
 
