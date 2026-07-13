@@ -57,3 +57,6 @@ artwork_html/index.html
 artwork_html/locations.html
 artwork_html/series.html
 artwork_html/style.css
+
+# Local secrets - do not commit
+appsettings.json
