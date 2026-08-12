@@ -182,7 +182,7 @@ FROM sold;
 To update your PostgreSQL database with latest Airtable data:
 
 ```bash
-cd "D:\Projects\claudetest\AirtableToPostgres"
+cd "D:\Projects\KLA\AirtableToPostgres"
 dotnet run
 ```
 
