@@ -61,6 +61,8 @@ class Program
         Console.WriteLine();
         Console.WriteLine("Options:");
         Console.WriteLine("  -h, --help, -?, /?, ?   show this help and exit");
+        Console.WriteLine("  -v, --verbose           show informational messages (e.g. lookup-field");
+        Console.WriteLine("                          result types mapped to JSONB)");
         Console.WriteLine();
         PrintAvailableTables();
         Console.WriteLine();
@@ -77,6 +79,9 @@ class Program
             PrintUsage();
             return;
         }
+        // Strip -v/--verbose so the positional command checks below (args[0] == "sync", ...) still work
+        TypeMapper.Verbose = args.Any(a => a is "-v" or "--verbose");
+        args = args.Where(a => a is not ("-v" or "--verbose")).ToArray();
         foreach (var a in args)
         {
             if (a.StartsWith("-") || a.StartsWith("/"))

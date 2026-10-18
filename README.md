@@ -94,6 +94,7 @@ dotnet run -- test                  # Test database connection
 dotnet run -- deleted               # Check all tables for records deleted in Airtable
 dotnet run -- deleted ARTWORK       # Check a single table for deleted records
 dotnet run -- --help                # Print all commands and options (also: -h, -?, /?, ?)
+dotnet run -- --verbose             # Also print informational messages, e.g. lookup-field result types (also: -v; combines with any command)
 ```
 
 Unknown flags (any unrecognized token starting with `-` or `/`) exit with code 1 after printing usage.

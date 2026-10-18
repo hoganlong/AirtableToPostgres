@@ -9,6 +9,9 @@ public class TypeMapper
     private readonly Dictionary<string, Dictionary<string, string>> _fieldSpecificMappings;
     private readonly HashSet<string> _loggedFields = new();
 
+    // Set by the -v / --verbose command-line flag; enables informational type-mapping messages
+    public static bool Verbose { get; set; }
+
     public TypeMapper(IConfiguration? configuration = null)
     {
         // Default type mappings
@@ -151,7 +154,7 @@ public class TypeMapper
         // but for safety and flexibility, we'll default to JSONB
         // This allows for arrays of values and complex data
 
-        if (field.Options != null && field.Options["result"] is JObject result)
+        if (Verbose && field.Options != null && field.Options["result"] is JObject result)
         {
             var resultType = result["type"]?.ToString();
 
